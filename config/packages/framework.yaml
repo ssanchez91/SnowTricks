@@ -16,6 +16,9 @@ framework:
     php_errors:
         log: true
 
+    validation:
+        enable_annotations: true
+
     # profiler configuration
     profiler:
         enabled:              true

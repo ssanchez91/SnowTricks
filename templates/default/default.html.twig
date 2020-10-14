@@ -3,6 +3,18 @@
 {% block title %}Home Page{% endblock %}
 
 {% block body %}
+    <!-- Masthead-->
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="mx-auto text-center">
+                <h1 class="mx-auto my-0 text-uppercase">SnowTricks</h1>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5">
+                    "Some people tie snowboards to their feet, very few tie them to their souls."</h2>
+                <p class="text-white-50 mx-auto mt-2 mb-5">Shawn white</p>
+                <a class="btn btn-primary js-scroll-trigger" href="#about"><i class="fas fa-chevron-down"></i> Show Tricks</a>
+            </div>
+        </div>
+    </header>
     <section class="about-section text-center" id="about">
         <div class="container-fluid">
             <div class="row">
@@ -11,7 +23,7 @@
                     <p>This space is made to share our passion which unites us all, the SNOWBOARD</p>
                 </div>
             </div>
-            <div class="row card-columns offset-1">
+            <div class="row card-columns offset-1" id="rows_tricks">
                 <div class="col-lg-2 col-offset-lg-1">
                     <div class="card bg-transparent">
                         <div class="img-top container-fluid">

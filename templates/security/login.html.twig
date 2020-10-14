@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+    <!-- Masthead-->
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="col-md-8 offset-md-2">
+                <div class="card bg-primary shadow mb-4">
+                    <div class="card-header text-white">
+                        <h4 class="card-title"><i class="fas fa-keyboard"></i> Please sign in</h4>
+                    </div>
+                    <div class="card-body bg-white text-primary">
+                        <form method="post">
+                            {% if error %}
+                                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            {% endif %}
+
+                            {% if app.user %}
+                                <div class="mb-3">
+                                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                                </div>
+                            {% endif %}
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputUsername"><i class="fas fa-image"></i> Username</label>
+                                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" required autofocus>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="inputPassword"><i class="fas fa-key"></i> Password</label>
+                                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                                </div>
+                            </div>
+                            <div class="row"><div class="form-group col-md-6">
+                                    <button class="btn btn-primary" type="submit">Sign in</button>
+                                </div></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    {#<header class="masthead">#}
+        {#<div class="container d-flex h-100 align-items-center">#}
+            {#<div class="mx-auto text-center">#}
+                {##}
+                    {##}
+
+                    {#<h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>#}
+                    {#<label for="inputUsername" class="text-white-50 mx-auto mt-1 mb-2 h2"><strong>Username</strong></label>#}
+                    {##}
+                    {#<label for="inputPassword" class="text-white-50 mx-auto mt-1 mb-2 h2"><strong>Password</strong></label>#}
+                    {##}
+                    {##}
+                {##}
+            {#</div>#}
+        {#</div>#}
+    {#</header>#}
+
+{% endblock %}
