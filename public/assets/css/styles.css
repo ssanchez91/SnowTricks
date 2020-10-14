@@ -4916,7 +4916,7 @@ a.badge-black:focus, a.badge-black.focus {
 .alert {
   position: relative;
   padding: 0.75rem 1.25rem;
-  margin-bottom: 1rem;
+  /*margin-bottom: 1rem;*/
   border: 1px solid transparent;
   border-radius: 0.25rem;
 }
@@ -10009,7 +10009,7 @@ a.text-black:hover, a.text-black:focus {
 }
 
 .text-white-50 {
-  color: rgba(255, 255, 255, 0.5) !important;
+  color: rgba(255, 255, 255, 0.7) !important;
 }
 
 .text-hide {
@@ -10362,7 +10362,16 @@ body {
 .contact-section .social a:active {
   color: #fff;
 }
-
 .footer {
   padding: 5rem 0;
+}
+
+#rows_tricks .card{
+  border: none !important;
+}
+
+@media screen and (max-width: 992px) {
+  .row.card-columns.offset-1 {
+    margin-left: 0px !important;
+  }
 }

@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <!-- Masthead-->
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="col-md-12">
+                <div class="card bg-primary shadow mb-4">
+                    <div class="card-header text-white">
+                        <h4 class="card-title"><i class="fas fa-keyboard"></i> Register</h4>
+                    </div>
+                    <div class="card-body bg-white text-primary">
+                        {{ form_start(registrationForm) }}
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="logo"><i class="fas fa-image"></i> Logo</label>
+                                    {% if form_errors(registrationForm.pathLogo)%}
+                                        <span class="invalid-feedback d-block">
+                                            <span class="d-block">
+                                                <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.pathLogo)|striptags }}{% endautoescape %}</span>
+                                            </span>
+                                        </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.pathLogo) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="registration_form_firstname"><i class="fas fa-address-card"></i> Firstname</label>
+                                    {% if form_errors(registrationForm.firstName)%}
+                                        <span class="invalid-feedback d-block">
+                                                <span class="d-block">
+                                                    <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.firstName)|striptags }}{% endautoescape %}</span>
+                                                </span>
+                                            </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.firstName) }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="registration_form_lastname"><i class="fas fa-address-card"></i> Lastname</label>
+                                    {% if form_errors(registrationForm.lastName)%}
+                                        <span class="invalid-feedback d-block">
+                                                <span class="d-block">
+                                                    <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.lastName)|striptags }}{% endautoescape %}</span>
+                                                </span>
+                                            </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.lastName) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="registration_form_username"><i class="fas fa-user"></i> Username</label>
+                                    {% if form_errors(registrationForm.username)%}
+                                        <span class="invalid-feedback d-block">
+                                                    <span class="d-block">
+                                                        <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.username)|striptags }}{% endautoescape %}</span>
+                                                    </span>
+                                                </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.username) }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="registration_form_email"><i class="fas fa-envelope-open-text"></i> Email</label>
+                                    {% if form_errors(registrationForm.email)%}
+                                        <span class="invalid-feedback d-block">
+                                                    <span class="d-block">
+                                                        <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.email)|striptags }}{% endautoescape %}</span>
+                                                    </span>
+                                                </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.email) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="registration_form_password_first"><i class="fas fa-key"></i> Password</label>
+                                    {% if form_errors(registrationForm.password.first)%}
+                                        <span class="invalid-feedback d-block">
+                                                    <span class="d-block">
+                                                        <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.password.first)|striptags }}{% endautoescape %}</span>
+                                                    </span>
+                                                </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.password.first, {'attr':{'class':'form form-control'}}) }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="registration_form_password_second"><i class="fas fa-key"></i> Repeat password</label>
+                                    {% if form_errors(registrationForm.password.second)%}
+                                        <span class="invalid-feedback d-block">
+                                                    <span class="d-block">
+                                                        <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.password.second)|striptags }}{% endautoescape %}</span>
+                                                    </span>
+                                                </span>
+                                    {% endif %}
+                                    {{ form_widget(registrationForm.password.second, {'attr':{'class':'form form-control'}}) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="username"><i class="fas fa-exclamation-triangle"></i> You have to agree terms to receive  your activate link and finish your register. {{ form_widget(registrationForm.agreeTerms, {'attr':{'class':'form'}}) }}</label>
+                                    {% if form_errors(registrationForm.agreeTerms)%}
+                                        <span class="invalid-feedback d-block">
+                                                    <span class="d-block">
+                                                        <span class="form-error-icon badge badge-danger text-uppercase">Erreur</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(registrationForm.agreeTerms)|striptags }}{% endautoescape %}</span>
+                                                    </span>
+                                                </span>
+                                    {% endif %}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <button type="submit" class="btn btn-primary float-right">Register</button>
+                                </div>
+                            </div>
+
+                        {{ form_end(registrationForm) }}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+{% endblock %}

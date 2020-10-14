@@ -6,10 +6,12 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class User implements UserInterface
 {
@@ -66,12 +68,33 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\Column(type="boolean", options={"default"=false})
+     */
+    private $enabled = false;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $tokenAt;
+
+    /**
+     *
+     */
     public function __construct()
     {
         $this->figures = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     *
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -82,12 +105,21 @@ class User implements UserInterface
      *
      * @see UserInterface
      */
-    public function getUsername(): string
+    public
+/**
+ * @return string
+ */
+function getUsername(): string
     {
         return (string) $this->username;
     }
 
-    public function setUsername(string $username): self
+    public
+/**
+ * @param string $username
+ * @return mixed
+ */
+function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -97,7 +129,11 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getRoles(): array
+    public
+/**
+ * @return mixed
+ */
+function getRoles(): array
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
@@ -106,7 +142,12 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): self
+    public
+/**
+ * @param array $roles
+ * @return mixed
+ */
+function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -116,12 +157,21 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getPassword(): string
+    public
+/**
+ * @return string
+ */
+function getPassword(): string
     {
         return (string) $this->password;
     }
 
-    public function setPassword(string $password): self
+    public
+/**
+ * @param string $password
+ * @return mixed
+ */
+function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -131,7 +181,11 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function getSalt()
+    public
+/**
+ *
+ */
+function getSalt()
     {
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
@@ -139,54 +193,80 @@ class User implements UserInterface
     /**
      * @see UserInterface
      */
-    public function eraseCredentials()
+    public
+/**
+ *
+ */
+function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
 
-    public function getPathLogo(): ?string
+    public
+/**
+ *
+ */
+function getPathLogo(): ?string
     {
         return $this->pathLogo;
     }
 
-    public function setPathLogo(string $pathLogo): self
+    public /**
+ * @param string $pathLogo
+ * @return mixed
+ */function setPathLogo(string $pathLogo): self
     {
         $this->pathLogo = $pathLogo;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public /**
+ *
+ */function getLastName(): ?string
     {
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): self
+    public /**
+ * @param string $lastName
+ * @return mixed
+ */function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function getFirstName(): ?string
+    public /**
+ *
+ */function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): self
+    public /**
+ * @param string $firstName
+ * @return mixed
+ */function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public /**
+ *
+ */function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    public /**
+ * @param string $email
+ * @return mixed
+ */function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -196,12 +276,17 @@ class User implements UserInterface
     /**
      * @return Collection|Figure[]
      */
-    public function getFigures(): Collection
+    public /**
+ * @return Collection
+ */function getFigures(): Collection
     {
         return $this->figures;
     }
 
-    public function addFigure(Figure $figure): self
+    public /**
+ * @param Figure $figure
+ * @return mixed
+ */function addFigure(Figure $figure): self
     {
         if (!$this->figures->contains($figure)) {
             $this->figures[] = $figure;
@@ -211,7 +296,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeFigure(Figure $figure): self
+    public /**
+ * @param Figure $figure
+ * @return mixed
+ */function removeFigure(Figure $figure): self
     {
         if ($this->figures->contains($figure)) {
             $this->figures->removeElement($figure);
@@ -227,12 +315,17 @@ class User implements UserInterface
     /**
      * @return Collection|Comment[]
      */
-    public function getComments(): Collection
+    public /**
+ * @return Collection
+ */function getComments(): Collection
     {
         return $this->comments;
     }
 
-    public function addComment(Comment $comment): self
+    public /**
+ * @param Comment $comment
+ * @return mixed
+ */function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
@@ -242,7 +335,10 @@ class User implements UserInterface
         return $this;
     }
 
-    public function removeComment(Comment $comment): self
+    public /**
+ * @param Comment $comment
+ * @return mixed
+ */function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
             $this->comments->removeElement($comment);
@@ -254,4 +350,43 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getEnabled(): ?bool
+    {
+        return $this->enabled;
+    }
+
+    public function setEnabled(bool $enabled): self
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getTokenAt(): ?\DateTimeInterface
+    {
+        return $this->tokenAt;
+    }
+
+    public function setTokenAt(?\DateTimeInterface $tokenAt): self
+    {
+        $this->tokenAt = $tokenAt;
+
+        return $this;
+    }
+
+
+
 }

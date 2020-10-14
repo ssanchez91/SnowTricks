@@ -1,0 +1,11 @@
+<h1>Hi {{ username }}! Please activate your account!</h1>
+
+<p>
+    Please confirm your email address and activate your account by clicking the following link: <br><br>
+    <a href="{{ url|raw }}">Active my Account</a>.
+    This link will remain active until {{ expiration_date|date('d/m/Y à H:i') }}.
+</p>
+
+<p>
+    Cheers!
+</p>
