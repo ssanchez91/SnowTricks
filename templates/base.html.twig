@@ -7,7 +7,7 @@
         <meta name="description" content="" />
         <meta name="author" content="sanchez steeve" />
         <title>SnowTricks - P6 OCR - SANCHEZ STEEVE </title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -35,7 +35,7 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarResponsive">
                         <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about"><i class="fas fa-snowboarding"></i> Tricks</a></li>
+                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('home') }}#about"><i class="fas fa-snowboarding"></i> Tricks</a></li>
                             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                 <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                             {% else %}
@@ -67,7 +67,7 @@
                                 </div>
                             {% elseif type == "success" %}
                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                    {{ message }}
+                                    {{ message|raw }}
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -132,7 +132,7 @@
             </div>
         </section>
         <!-- Footer-->
-        <footer class="footer bg-primary small text-center text-white-50"><div class="container">Copyright © Your Website 2020</div></footer>
+        <footer class="footer bg-primary small text-center text-white-50"><div class="container">S.SANCHEZ © SnowTricks 2020 - Project 6 OCR</div></footer>
 
         {% block javascripts %}
             <!-- Bootstrap core JS-->

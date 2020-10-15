@@ -40,14 +40,7 @@ class RegistrationController extends AbstractController
             $user = $userService->createUser($user, $form->get('password')->getData());
 
             // generate a signed url to enable user
-            $url = $this->generateUrl(
-                'app_user_activation',
-                [
-                    'username' => $user->getUsername(),
-                    'token' => $user->getToken(),
-                ],
-                UrlGeneratorInterface::ABSOLUTE_URL
-            );
+            $url = $userService->getUrlToEmail('app_user_activation', $user);
 
             //send email activation
             $mailerSecurity->sendActivationLink($user, $url);
@@ -68,7 +61,7 @@ class RegistrationController extends AbstractController
     public function activateUser(Request $request, UserRepository $userRepository, UserService $userService): Response
     {
         $username = $request->get('username');
-        $user = $userRepository->findBy(array('username'=> $username));
+        $user = $userRepository->findOneBy(array('username'=> $username));
 
         if (!$user || null === $username)
         {
@@ -76,13 +69,13 @@ class RegistrationController extends AbstractController
             return $this->redirectToRoute('app_register');
         }
 
-        if($user[0]->getEnabled() === true )
+        if($user->getEnabled() === true )
         {
             $this->addFlash('warning', 'Your account has been already enabled !');
             return $this->redirectToRoute('app_login');
         }
 
-        if($userService->checkToken($user[0], $request->get('token')) === true)
+        if($userService->checkTokenToRegister($user, $request->get('token')) === true)
         {
             $this->addFlash('success', 'Your account has been successfully enabled !');
             return $this->redirectToRoute('app_login');

@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
@@ -47,17 +48,23 @@ class UserService
      * @var UrlGeneratorInterface
      */
     private $urlGeneratorInterface;
+    /**
+     * @var RouterInterface
+     */
+    private $routerInterface;
 
     /**
      * @param EntityManagerInterface $entityManagerInterface
      * @param UserPasswordEncoderInterface $userPasswordEncoderInterface
      * @param TokenGeneratorInterface $generatorInterface
      */
-    public function __construct(EntityManagerInterface $entityManagerInterface, UserPasswordEncoderInterface $userPasswordEncoderInterface, TokenGeneratorInterface $generatorInterface){
+    public function __construct(EntityManagerInterface $entityManagerInterface, UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoderInterface, TokenGeneratorInterface $generatorInterface, RouterInterface $routerInterface){
 
         $this->generatorInterface = $generatorInterface;
         $this->userPasswordEncoderInterface = $userPasswordEncoderInterface;
         $this->entityManagerInterface = $entityManagerInterface;
+        $this->userRepository = $userRepository;
+        $this->routerInterface = $routerInterface;
     }
 
     /**
@@ -68,14 +75,8 @@ class UserService
     public function createUser(User $user, $password): User
     {
         $user->setPassword($this->createPassword($user, $password));
-        $user->setToken($this->createToken($user));
-        $user->setTokenAt(new \DateTime('+2 Hours'));
         $user->setRoles(['ROLE_USER']);
-
-        $this->entityManagerInterface->persist($user);
-        $this->entityManagerInterface->flush();
-
-        return $user;
+        return $this->addToken($user);
     }
 
     /**
@@ -102,11 +103,9 @@ class UserService
      * @param string $token
      * @return boolean
      */
-    public function checkToken(User $user, string $token): bool
+    public function checkTokenToRegister(User $user, string $token): bool
     {
-        $tokenAt = $user->getTokenAt();
-
-        if (null !== $token && $user->getToken() === $token && time() < $tokenAt->getTimestamp())
+        if($this->checkToken($user, $token) === true)
         {
             $user->setEnabled(true);
             $this->entityManagerInterface->persist($user);
@@ -120,4 +119,46 @@ class UserService
 
         return false;
     }
+
+    /**
+     * @param User $user
+     * @param string $token
+     * @return boolean
+     */
+    public function checkToken(User $user, string $token): bool
+    {
+        $tokenAt = $user->getTokenAt();
+
+        if (null !== $token && $user->getToken() === $token && time() < $tokenAt->getTimestamp())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function addToken(User $user): User
+    {
+        $user->setToken($this->createToken($user));
+        $user->setTokenAt(new \DateTime('+2 Hours'));
+
+        $this->entityManagerInterface->persist($user);
+        $this->entityManagerInterface->flush();
+
+        return $user;
+    }
+
+    public function getUrlToEmail(string $route, User $user): string
+    {
+        // generate a signed url to enable user
+        return $this->routerInterface->generate(
+            $route,
+            [
+                'username' => $user->getUsername(),
+                'token' => $user->getToken(),
+            ],
+            UrlGeneratorInterface::ABSOLUTE_URL
+        );
+    }
+
 }
