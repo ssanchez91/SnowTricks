@@ -7,6 +7,10 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class UserFixtures
+ * @package App\DataFixtures
+ */
 class UserFixtures extends Fixture
 {
     /**
@@ -14,24 +18,40 @@ class UserFixtures extends Fixture
      */
     private $passwordEncoder;
 
+    public const USER_REFERENCE = 'user_';
+
+    /**
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     */
     public function __construct(UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setFirstName('Steeve');
-        $user->setLastName('SANCHEZ');
-        $user->setUsername('ssanchez');
-        $user->setEmail('sanchez.steeve@gmail.com');
-        $user->setPathLogo("logo/logo-admin.png");
-        $user->setRoles(['ROLE_ADMIN']);
-        $user->setIsVerified(true);
-        $user->setPassword($this->passwordEncoder->encodePassword($user,"Test!1234"));
+        for($i = 0; $i < 10; $i++)
+        {
+            $user = new User();
+            $user->setFirstName(self::USER_REFERENCE.$i);
+            $user->setLastName(self::USER_REFERENCE.$i);
+            $user->setUsername(self::USER_REFERENCE.$i);
+            $user->setPassword($this->passwordEncoder->encodePassword($user,self::USER_REFERENCE.$i));
+            $user->setEmail(self::USER_REFERENCE.$i.'@yopmail.fr');
+            $user->setPathLogo("logo/logo-admin.png");
+            $user->setRoles(['ROLE_USER']);
+            $user->setToken(self::USER_REFERENCE.$i);
+            $user->setTokenAt(new \DateTime('+2 Hours'));
+            $user->setEnabled(true);
+            $manager->persist($user);
 
-        $manager->persist($user);
+            $this->addReference(self::USER_REFERENCE.$i, $user);
+
+        }
+
         $manager->flush();
     }
 }
