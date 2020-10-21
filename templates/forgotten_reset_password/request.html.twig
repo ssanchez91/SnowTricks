@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block body %}
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="col-md-8 offset-md-2">
+                <div class="card bg-primary shadow mb-4">
+                    <div class="card-header text-white">
+                        <h4 class="card-title"><i class="fas fa-key"></i> Reset your password</h4>
+                    </div>
+                    <div class="card-body bg-white text-primary">
+                        {% for flashError in app.flashes('reset_password_error') %}
+                            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+                        {% endfor %}
+                        {{ form_start(requestForm) }}
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="reset_password_request_form_email"><i class="fas fa-envelope"></i> Email address</label>
+                                        {{ form_widget(requestForm.email, {'attr':{'class':'form form-control'}}) }}
+                                    </div>
+                                </div>
+
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    Enter your email address and we we will send you a
+                                    link to reset your password.
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <button class="btn btn-primary">Send password reset email</button>
+                                </div>
+                            </div>
+                        {{ form_end(requestForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
