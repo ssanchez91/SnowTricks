@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -33,7 +34,7 @@ class RegistrationFormType extends AbstractType
                 'attr'=>['class'=>'form form-control']
             ])
             ->add('pathLogo', FileType::class, [
-                'attr'=>['class'=>'form form-control']
+                'attr'=>['class'=>'form form-control'],
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
@@ -59,6 +60,7 @@ class RegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
+                'options'=>['attr'=>['invalid_message' => 'The password fields must match.']]
             ])
         ;
     }
@@ -67,6 +69,10 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'attr' => [
+                'autocomplete' => 'off',
+                'novalidate' => 'novalidate', // comment me to reactivate the html5 validation!  🚥
+            ],
         ]);
     }
 }

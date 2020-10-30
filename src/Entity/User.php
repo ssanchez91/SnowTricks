@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
@@ -20,42 +22,70 @@ class User implements UserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("tricks:read")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=30, unique=true)
+     * @Groups("tricks:read")
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=3,
+     *     max=30,
+     *     minMessage="The username should contain at least 3 characters",
+     *     maxMessage="The username should not contain more than 30 characters",
+     * )
      */
     private $username;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups("tricks:read")
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("tricks:read")     *
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("tricks:read")
+     * @Assert\NotBlank(message="You must select a picture")
+     * @Assert\Image(
+     *      mimeTypes={"image/jpeg", "image/png"},
+     *      mimeTypesMessage="This file is not a valid image.")
+     * @Assert\File(maxSize="1M",
+     * maxSizeMessage="The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.")
      */
     private $pathLogo;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("tricks:read")
+     * @Assert\NotBlank(message="You must add a last name")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("tricks:read")
+     * @Assert\NotBlank(message="You must add a first name")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Groups("tricks:read")
+     * @Assert\NotBlank(message="You must add an email address")
+     * @Assert\Email(
+     *     message = "The email '{{ value }}' is not a valid email."
+     * )
+     *
      */
     private $email;
 
@@ -112,7 +142,7 @@ class User implements UserInterface
  */
 function getUsername(): string
     {
-        return (string) $this->username;
+        return $this->username;
     }
 
     public

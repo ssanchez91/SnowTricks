@@ -15,19 +15,26 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Url;
+use Symfony\Component\Validator\Constraints\Valid;
 
 class FigureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('slug', null, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form form-control',
-                    'id' => 'slug'
-                ]
-            ])
+//            ->add('slug', null, [
+//                'required' => 'required',
+//                'label' => false,
+//                'attr' => [
+//                    'class' => 'form form-control',
+//                    'id' => 'slug'
+//                ]
+//            ])
             ->add('name', null, [
                 'label' => false,
                 'attr' => [
@@ -59,11 +66,27 @@ class FigureType extends AbstractType
             ])
             ->add('mainPicture', PictureType::class, [
                 'mapped'=> false,
-                'by_reference'=> false
+                'by_reference'=> false,
+                'constraints' => [
+                    new valid()
+                ]
             ])
             ->add('mainMovie', MovieType::class, [
                 'mapped'=> false,
-                'by_reference'=> false
+                'by_reference'=> false,
+                'constraints' =>
+                    [
+                        new valid()
+//                        new NotBlank(),
+//                        new Url(['message' => 'This url is not valid.', 'groups' => 'personal_error']),
+//                        new Regex(
+//                            [
+//                                'pattern' => '^https:\/\/www.youtube.com\/embed\/[a-zA-Z0-9-_]+^',
+//                                'message' => 'Please enter a valid url.',
+//                                'groups' => 'personal_error'
+//                            ]
+//                        ),
+                    ],
             ])
             ->add('pictures', CollectionType::class, [
                 'entry_type' => PictureType::class,
@@ -91,6 +114,10 @@ class FigureType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Figure::class,
+            'validation_groups' => ['Default', 'personal_error'],
+            'attr' => [
+                'novalidate' => 'novalidate', // comment me to reactivate the html5 validation!  🚥
+            ],
         ]);
     }
 }

@@ -20,23 +20,6 @@ use Symfony\Component\Validator\Constraints\Valid;
 
 class CommentController extends AbstractController
 {
-//    /**
-//     * @Route("/addComment/{slug}", name="add_comment")
-//     */
-//    public function addComment(Request $request, $slug, CommentService $commentService)
-//    {
-//        $form = $this->createForm(CommentType::class);
-//        $form->handleRequest($request);
-//
-//        if($form->isSubmitted() && $form->isValid())
-//        {
-//            $commentService->addComment($form->getData(), $slug);
-//            $this->addFlash('success', 'Your comment has just been added !');
-//        }
-//
-//        return $this->redirectToRoute('showFigure',['slug'=>$slug]);
-//    }
-
     /**
      * @Route("/addComment", name="add_comment")
      */

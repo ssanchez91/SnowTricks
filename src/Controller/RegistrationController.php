@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             //create user in database
-            $user = $userService->createUser($user, $form->get('password')->getData());
+            $user = $userService->createUser($user, $form->get('password')->getData(), $request);
 
             // generate a signed url to enable user
             $url = $userService->getUrlToEmail('app_user_activation', $user);

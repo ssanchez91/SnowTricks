@@ -12,6 +12,8 @@ namespace App\Service;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
@@ -52,19 +54,24 @@ class UserService
      * @var RouterInterface
      */
     private $routerInterface;
+    /**
+     * @var FileUploaderService
+     */
+    private $fileUploaderService;
 
     /**
      * @param EntityManagerInterface $entityManagerInterface
      * @param UserPasswordEncoderInterface $userPasswordEncoderInterface
      * @param TokenGeneratorInterface $generatorInterface
      */
-    public function __construct(EntityManagerInterface $entityManagerInterface, UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoderInterface, TokenGeneratorInterface $generatorInterface, RouterInterface $routerInterface){
+    public function __construct(EntityManagerInterface $entityManagerInterface, UserRepository $userRepository, UserPasswordEncoderInterface $userPasswordEncoderInterface, TokenGeneratorInterface $generatorInterface, RouterInterface $routerInterface, FileUploaderService $fileUploaderService){
 
         $this->generatorInterface = $generatorInterface;
         $this->userPasswordEncoderInterface = $userPasswordEncoderInterface;
         $this->entityManagerInterface = $entityManagerInterface;
         $this->userRepository = $userRepository;
         $this->routerInterface = $routerInterface;
+        $this->fileUploaderService = $fileUploaderService;
     }
 
     /**
@@ -72,8 +79,9 @@ class UserService
      * @param $password
      * @return User
      */
-    public function createUser(User $user, $password): User
+    public function createUser(User $user, string $password, Request $request ): User
     {
+        $user->setPathLogo($this->uploadLogo($request));
         $user->setPassword($this->createPassword($user, $password));
         $user->setRoles(['ROLE_USER']);
         return $this->addToken($user);
@@ -159,6 +167,14 @@ class UserService
             ],
             UrlGeneratorInterface::ABSOLUTE_URL
         );
+    }
+
+    public function uploadLogo(Request $request)
+    {
+        /** @var UploadedFile $logo */
+        $logo = $request->files->get('registration_form')['pathLogo'];
+
+        return $this->fileUploaderService->upload($logo, 'logo');
     }
 
 }
