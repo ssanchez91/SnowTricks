@@ -14,24 +14,22 @@ $(".btn.btn-primary.btn-sm.btn-ok").click(function(e) {
 });
 
 function initLinks(){
-    $("a[data-delete]").click(function(e){
+    $("a[data-delete], a[data-delete-movie]").click(function(e){
         e.preventDefault();
-        typeMedia = "picture";
         link = $(this);
-        $('#staticBackdrop').modal('show');
-    });
-
-    $("a[data-delete-movie]").click(function(e){
-        e.preventDefault();
-        typeMedia = "movie";
-        link = $(this);
+        if($(this).attr('data-delete') !== undefined)
+        {
+            typeMedia = "picture";
+        }
+        else
+        {
+            typeMedia = "movie";
+        }
         $('#staticBackdrop').modal('show');
     });
 }
 
 function deleteMedia(link, type){
-
-    console.log(type);
     $.ajax({
         url: link.attr("href"),
         type: "DELETE",
@@ -41,32 +39,7 @@ function deleteMedia(link, type){
         },
         success: function(response) {
             $('#staticBackdrop').modal('hide');
-            if(type == "picture")
-            {
-                if(response.default_picture == true)
-                {
-                    initAlert($("#alertEditImg"), "alert-warning", "You must select another default picture before can delete it. ");
-                }
-                else
-                {
-                    link.parent().parent().parent().remove();
-                    initAlert($("#alertEditImg"), "alert-success", "Your picture has just been deleted.");
-                    initCheckBox();
-                }
-            }
-            else
-            {
-                if(response.delete_movie == true)
-                {
-                    link.parent().parent().remove();
-                    initAlert($("#alertEditMovie"), "alert-success", "Your movie has just been deleted.");
-                }
-                else
-                {
-                    initAlert($("#alertEditMovie"), "alert-warning", "A problem occurred during the deletion !");
-                }
-
-            }
+            applyDeleteMedia(type, response, link);
         },
         error: function(xhr) {
             if(type == "picture") {
@@ -78,6 +51,29 @@ function deleteMedia(link, type){
             }
         }
     });
+}
+
+function applyDeleteMedia(type, response, link){
+    if(type == "picture"){
+        if(response.default_picture == true){
+            initAlert($("#alertEditImg"), "alert-warning", "You must select another default picture before can delete it. ");
+        }
+        else{
+            link.parent().parent().parent().remove();
+            initAlert($("#alertEditImg"), "alert-success", "Your picture has just been deleted.");
+            initCheckBox();
+        }
+    }
+    else
+    {
+        if(response.delete_movie == true){
+            link.parent().parent().remove();
+            initAlert($("#alertEditMovie"), "alert-success", "Your movie has just been deleted.");
+        }
+        else{
+            initAlert($("#alertEditMovie"), "alert-warning", "A problem occurred during the deletion !");
+        }
+    }
 }
 
 function initAlert(div_alert, type, msg){
