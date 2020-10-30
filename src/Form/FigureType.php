@@ -26,93 +26,59 @@ class FigureType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $routeName = $options['routeName'];
         $builder
-//            ->add('slug', null, [
-//                'required' => 'required',
-//                'label' => false,
-//                'attr' => [
-//                    'class' => 'form form-control',
-//                    'id' => 'slug'
-//                ]
-//            ])
-            ->add('name', null, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form form-control',
-                    'id' => 'name'
-                ]
-            ])
-            ->add('description', TextareaType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form form-control',
-                    'id' => 'description',
-                    'rows' => 4
-                ]
-            ])
-            ->add('category', EntityType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'form form-control',
-                    'id' => 'category'
-                ],
+            ->add('name', null, ['label' => false,
+                'attr' => ['class' => 'form form-control','id' => 'name']])
+            ->add('description', TextareaType::class, ['label' => false,
+                'attr' => ['class' => 'form form-control','id' => 'description','rows' => 4]])
+            ->add('category', EntityType::class, ['label' => false,
+                'attr' => ['class' => 'form form-control','id' => 'category'],
                 'class'=> Category::class,
-                'query_builder' => function (CategoryRepository $c) {
+                'query_builder' => function (CategoryRepository $c)
+                {
                     return $c->createQueryBuilder('c')
                         ->orderBy('c.name')
                         ->getFirstResult();
                 },
                 'choice_label' => 'name'
+            ]);
+        if($routeName == "add_trick")
+        {
+            $this->addMediaFields($builder);
+        }
+    }
+
+    private function addMediaFields($builder)
+    {
+        $builder->add('mainPicture', PictureType::class, ['mapped'=> false,'by_reference'=> false,
+            'constraints' => [new valid()]
             ])
-            ->add('mainPicture', PictureType::class, [
-                'mapped'=> false,
+            ->add('mainMovie', MovieType::class, ['mapped'=> false,
                 'by_reference'=> false,
-                'constraints' => [
-                    new valid()
-                ]
+                'constraints' =>[new valid()],
             ])
-            ->add('mainMovie', MovieType::class, [
-                'mapped'=> false,
-                'by_reference'=> false,
-                'constraints' =>
-                    [
-                        new valid()
-//                        new NotBlank(),
-//                        new Url(['message' => 'This url is not valid.', 'groups' => 'personal_error']),
-//                        new Regex(
-//                            [
-//                                'pattern' => '^https:\/\/www.youtube.com\/embed\/[a-zA-Z0-9-_]+^',
-//                                'message' => 'Please enter a valid url.',
-//                                'groups' => 'personal_error'
-//                            ]
-//                        ),
-                    ],
-            ])
-            ->add('pictures', CollectionType::class, [
-                'entry_type' => PictureType::class,
+            ->add('pictures', CollectionType::class, ['entry_type' => PictureType::class,
                 'label' => '',
-                'label_attr' => [
-                    'class' => 'd-none'
-                ],
+                'label_attr' => ['class' => 'd-none'],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ])
-            ->add('movies', CollectionType::class, [
-                'entry_type' => MovieType::class,
+            ->add('movies', CollectionType::class, ['entry_type' => MovieType::class,
                 'label' => '',
-                'label_attr' => [
-                    'class' => 'd-none'
-                ],
+                'label_attr' => ['class' => 'd-none'],
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
             ]);
     }
 
+
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
+            'routeName' => 0,
             'data_class' => Figure::class,
             'validation_groups' => ['Default', 'personal_error'],
             'attr' => [
