@@ -7,47 +7,65 @@
         <meta name="description" content="" />
         <meta name="author" content="sanchez steeve" />
         <title>SnowTricks - P6 OCR - SANCHEZ STEEVE </title>
-        <link rel="icon" type="image/x-icon" href="assets/img/favicon.png" />
-        <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.png') }}" />
+
+        {% block javascripts %}
+            <!-- Bootstrap core JS-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+            <!-- Third party plugin JS-->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+            <!-- Font Awesome icons (free version)-->
+            <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        {% endblock %}
 
         {% block stylesheets %}
-        <!-- Google fonts-->
-        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />{% endblock %}
+            <!-- Google fonts-->
+            <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+            <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+            <!-- Core theme CSS (includes Bootstrap)-->
+            <link href="{{ asset('assets/css/styles.css') }}" rel="stylesheet" />
+        {% endblock %}
 
     </head>
     <body id="page-top">
         <!-- Navigation-->
-        {% if app.request.attributes.get('_route') == 'home' %}
-            <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-        {% else %}
-            <nav class="navbar navbar-expand-lg navbar-light bg-primary" id="mainNav">
-        {% endif %}
-                <div class="container">
-                    {#<img src="https://library.kissclipart.com/20180905/awe/kissclipart-snowboard-png-clipart-snowboarding-clip-art-3807997027a50eb2.jpg" class="img-fluid" alt="logo snowboarder"/>#}
-                    <a class="navbar-brand js-scroll-trigger" href="{{ path('home') }}"><i class="fas fa-snowboarding fa-2x"></i> Snowtricks</a>
-                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        Menu
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarResponsive">
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('home') }}#about"><i class="fas fa-snowboarding"></i> Tricks</a></li>
-                            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                            {% else %}
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_register') }}"><i class="fas fa-user-plus"></i> Register</a></li>
-                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
-                            {% endif %}
-                        </ul>
+        {% block navbar %}
+            {% if app.request.attributes.get('_route') == 'home' %}
+                <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            {% else %}
+                <nav class="navbar navbar-expand-lg navbar-light bg-primary" id="mainNav">
+            {% endif %}
+                    <div class="container">
+                        {#<img src="https://library.kissclipart.com/20180905/awe/kissclipart-snowboard-png-clipart-snowboarding-clip-art-3807997027a50eb2.jpg" class="img-fluid" alt="logo snowboarder"/>#}
+                        <a class="navbar-brand js-scroll-trigger" href="{{ path('home') }}"><i class="fas fa-snowboarding fa-2x"></i> Snowtricks</a>
+                        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                            Menu
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarResponsive">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('home') }}#about"><i class="fas fa-snowboarding"></i> Tricks</a></li>
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('add_trick') }}"><i class="fas fa-plus"></i> Add trick</a></li>
+                                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_logout') }}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                {% else %}
+                                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_register') }}"><i class="fas fa-user-plus"></i> Register</a></li>
+                                    <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{{ path('app_login') }}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                                {% endif %}
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </nav>
+            {% if app.request.attributes.get('_route') == 'home' %}
+                </nav>
+            {% else %}
+                </nav>
+            {% endif %}
+        {% endblock %}
+
+        <!-- Notification -->
         {% block notification %}
-            <div class="page-header">
+            <div class="page-header" style="position:relative;z-index: 3000;">
                 <div class="page-header-content header-elements-md-inline">
                     {% for type, messages in app.session.flashbag.all() %}
                         {% for message in messages %}
@@ -86,62 +104,50 @@
             </div>
         {% endblock %}
 
+        <!-- Modal -->
+        {% block modal %}
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title" id="staticBackdropLabel">Confirmation message</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body text-primary">
+                            Are you sure you want to start the deletion ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cancel</button>
+                            <a class="btn btn-primary btn-sm btn-ok">Yes</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endblock %}
+
+        <!-- Body Content-->
         {% block body %}
 
         {% endblock %}
-        <!-- About-->
 
-        {#<!-- Projects-->#}
-        {#<section class="projects-section bg-light" id="projects">#}
-            {#<div class="container">#}
-                {#<!-- Featured Project Row-->#}
-                {#<div class="row align-items-center no-gutters mb-4 mb-lg-5">#}
-                    {#<div class="col-xl-8 col-lg-7"><img class="img-fluid mb-3 mb-lg-0" src="assets/img/bg-masthead.jpg" alt="" /></div>#}
-                    {#<div class="col-xl-4 col-lg-5">#}
-                        {#<div class="featured-text text-center text-lg-left">#}
-                            {#<h4>Shoreline</h4>#}
-                            {#<p class="text-black-50 mb-0">Grayscale is open source and MIT licensed. This means you can use it for any project - even commercial projects! Download it, customize it, and publish your website!</p>#}
-                        {#</div>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#</section>#}
-        {#<!-- Signup-->#}
-        {#<section class="signup-section" id="signup">#}
-            {#<div class="container">#}
-                {#<div class="row">#}
-                    {#<div class="col-md-10 col-lg-8 mx-auto text-center">#}
-                        {#<i class="far fa-paper-plane fa-2x mb-2 text-white"></i>#}
-                        {#<h2 class="text-white mb-5">Subscribe to receive updates!</h2>#}
-                        {#<form class="form-inline d-flex">#}
-                            {#<input class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail" type="email" placeholder="Enter email address..." />#}
-                            {#<button class="btn btn-primary mx-auto" type="submit">Subscribe</button>#}
-                        {#</form>#}
-                    {#</div>#}
-                {#</div>#}
-            {#</div>#}
-        {#</section>#}
         <!-- Contact-->
         <section class="contact-section bg-primary">
             <div class="container">
                 <div class="social d-flex justify-content-center">
                     <a class="mx-2" href="#!"><i class="fab fa-twitter"></i></a>
                     <a class="mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
-                    <a class="mx-2" href="#!"><i class="fab fa-github"></i></a>
+                    <a class="mx-2" href="https://github.com/ssanchez91"><i class="fab fa-github"></i></a>
                 </div>
             </div>
         </section>
+
         <!-- Footer-->
         <footer class="footer bg-primary small text-center text-white-50"><div class="container">S.SANCHEZ © SnowTricks 2020 - Project 6 OCR</div></footer>
 
-        {% block javascripts %}
-            <!-- Bootstrap core JS-->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
-            <!-- Third party plugin JS-->
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-            <!-- Core theme JS-->
-            <script src="{{ asset('assets/js/scripts.js') }}"></script>
-        {% endblock %}
+        <!-- Core theme JS-->
+        <script src="{{ asset('assets/js/scripts.js') }}"></script>
+        <script src="{{ asset('assets/js/base.js') }}"></script>
     </body>
 </html>

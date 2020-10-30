@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create trick{% endblock %}
+
+{% block body %}
+    <div class="col-lg-8 m-auto">
+        <div class="card bg-primary mt-5 shadow mb-4">
+            <div class="card-header text-white">
+                <h4 class="card-title"><i class="fas fa-keyboard"></i> Update trick</h4>
+            </div>
+            <div class="card-body bg-white text-primary">
+                {{ form_start(form, {'attr': {'id':'form-figure'}}) }}
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <label for="category"><i class="fas fa-list-ul"></i> Category</label>
+                            {% if form_errors(form.category)%}
+                                <span class="invalid-feedback d-block">
+                                        <span class="d-block">
+                                            <span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.category)|striptags }}{% endautoescape %}</span>
+                                        </span>
+                                    </span>
+                            {% endif %}
+                            {{ form_widget(form.category) }}
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="name"><i class="fas fa-snowboarding"></i> Name</label>
+                            {% if form_errors(form.name)%}
+
+                                <span class="invalid-feedback d-block">
+                                        <span class="d-block">
+                                            <span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.name)|striptags }}{% endautoescape %}</span>
+                                        </span>
+                                    </span>
+                            {% endif %}
+                            {{ form_widget(form.name) }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <label for="description"><i class="fas fa-newspaper"></i> Description</label>
+                            {% if form_errors(form.description)%}
+                                <span class="invalid-feedback d-block">
+                                        <span class="d-block">
+                                            <span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.description)|striptags }}{% endautoescape %}</span>
+                                        </span>
+                                    </span>
+                            {% endif %}
+                            {{ form_widget(form.description) }}
+                        </div>
+                    </div>
+                    <hr class="my-4">
+                    <div class="row">
+                        <div class="form-group col-lg-6 ">
+                            <label for="picture"><i class="fas fa-image"></i> Add Pictures <a id="addNewPictureButton" href="" data-toggle="tooltip"  data-placement="bottom" data-original-title="Add a new picture"><i class="fas fa-plus"></i> </a></label>
+                        </div>
+                        <div class="form-group col-lg-6 ">
+                            <label for="movie"><i class="fab fa-youtube"></i> Add Movies <a id="addNewMovieButton" href="" data-toggle="tooltip"  data-placement="bottom" data-original-title="Add a new movie"><i class="fas fa-plus"></i> </a></label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <div class="alert d-none" id="alertEditImg"></div>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <div class="alert d-none" id="alertEditMovie"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-lg-6">
+                            <div class="row d-none" id="addNewPictureDiv">
+                                <div class="form-group col-lg-10">
+                                    <input type="file" class="form form-control" data-href="{{ path('picture_add', {'id': form.vars.value.id}) }}"/>
+                                </div>
+                                <div class="form-group col-lg-1 mt-1">
+                                    <a id="uploadNewPictureLink" href="" class="item" data-toggle="tooltip"  data-placement="bottom" data-original-title="Click here to upload your picture !"><i class="fas fa-upload"></i></a>
+                                </div>
+                                <div class="form-group col-lg-1 mt-1">
+                                    <a id="removeNewPictureLink" href="" class="item"><i class="fas fa-times-circle" data-toggle="tooltip"  data-placement="bottom" data-original-title="Cancel !"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <div class="row d-none" id="addNewMovieDiv">
+                                <div class="form-group col-lg-10">
+                                    <label for="urlYoutube" class="d-none">Url youtube :</label><input placeholder="Format: https://www.youtube.com/embed/(your video id)" id="urlYoutube" type="text" class="form form-control" data-href="{{ path('movie_add', {'id': form.vars.value.id}) }}"/>
+                                </div>
+                                <div class="form-group col-lg-1 mt-1">
+                                    <a id="uploadNewMovieLink" href="" class="item" data-toggle="tooltip"  data-placement="bottom" data-original-title="Click here to upload your movie !"><i class="fas fa-upload"></i></a>
+                                </div>
+                                <div class="form-group col-lg-1 mt-1">
+                                    <a id="removeNewMovieLink" href="" class="item"><i class="fas fa-times-circle" data-toggle="tooltip"  data-placement="bottom" data-original-title="Cancel !"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6 overflow-auto" style="max-height: 330px !important">
+                            <div class="row" id="div_row_pictures">
+                                {% for picture in pictures %}
+                                    <div class="col-lg-5 mr-3 mb-3 ml-3" style="background-image: url({{ asset('assets/img/tricks/' ~ picture.path) }}); min-height: 150px; background-position: center; background-size: cover;">
+                                        <div class="row float-right">
+                                            <div class="mt-2 mr-2"><a class="item" href="{{ path('picture_delete', {'id' : picture.id}) }}" data-delete data-token="{{ csrf_token('delete_') }}" data-toggle="tooltip"  data-placement="bottom" data-original-title="Delete picture : {{ picture.path }}  !"><i class='fas fa-trash'></i></a></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="mt-2 ml-2"><input class="defaultPicture" {% if picture.defaultPicture == true %} checked="checked" disabled="disabled" {% endif %} id="defaultPicture_{{ picture.id }}" type="checkbox" class="item" data-href="{{ path('picture_default', {'id' : picture.id}) }}" data-default data-token="{{ csrf_token('default_') }}" /><label class="text-white ml-1" for="defaultPicture_{{ picture.id }}"> Default picture</label></div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 overflow-auto" style="max-height: 330px !important">
+                            <div class="row" id="div_row_movies">
+                                {% for movie in movies %}
+                                    <div class="col-lg-6 mb-3" style="max-height: 150px; ">
+                                        <div>
+                                            <a class="item mt-2 ml-4" style="position: absolute; z-index: 1000" href="{{ path('movie_delete', {'id' : movie.id}) }}" data-delete-movie data-token="{{ csrf_token('delete_movie') }}" data-toggle="tooltip"  data-placement="bottom" data-original-title="Delete movie : {{ movie.url }}  !"><i class='fas fa-trash'></i></a>
+                                            <iframe class="col-lg-12"  src="{{ movie.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <button id="btntest" type="submit" class="btn btn-primary">Save trick</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+    {% block javascript %}
+        <script type="text/javascript" src="{{ asset('assets/js/edit_figure.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/js/picture.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('assets/js/movie.js') }}"></script>
+        <script type="text/javascript">
+            function insertNewPicture(picture){
+                $("#div_row_pictures").append('<div class="col-lg-5 mr-3 mb-3 ml-3" style="background-image: url(\'/assets/img/tricks/'+ picture.path +'\'); min-height: 150px; background-position: center; background-size: cover;">'+
+                        '<div class="row float-right">'+
+                        '<div class="mt-2 mr-2"><a class="item" href="/picture/delete/'+ picture.id +'" data-delete="" data-token="{{ csrf_token('delete_') }}" data-toggle="tooltip"  data-placement="bottom" data-original-title="Delete picture : '+ picture.path +' !" ><i class="fas fa-trash"></i></a></div>'+
+                        '</div>'+
+                        '<div class="row">'+
+                        '<div class="mt-2 ml-2"><input class="defaultPicture" id="defaultPicture_'+ picture.id +'" type="checkbox" data-href="/picture/default/'+ picture.id +'" data-default="" data-token="{{ csrf_token('default_') }}"><label class="text-white ml-1" for="defaultPicture_'+ picture.id +'"> Default picture</label></div>'+
+                        '</div>'+
+                        '</div>');
+
+                $("[data-toggle=tooltip]").tooltip();
+            }
+            function insertNewMovie(movie){
+                $("#div_row_movies").append('<div class="col-lg-6 mb-3" style="max-height: 150px;">'+
+                    '<div>'+
+                    '<a class="item mt-2 ml-4" style="position: absolute; z-index: 1000" href="/movie/delete/'+ movie.id +'" data-delete-movie data-token="{{ csrf_token('delete_movie') }}" data-toggle="tooltip"  data-placement="bottom" data-original-title="Delete movie : '+movie.url+' }}  !"><i class="fas fa-trash"></i></a>'+
+                    '<iframe class="col-lg-12"  src="'+ movie.url +'" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'+
+                    '</div>'+
+                    '</div>');
+
+                $("[data-toggle=tooltip]").tooltip();
+            }
+        </script>
+    {% endblock %}
+{% endblock %}
+
+

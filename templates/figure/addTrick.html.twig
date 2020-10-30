@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create trick{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <!-- Masthead-->
+    <header class="masthead">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="col-md-12">
+                <div class="card bg-primary shadow mb-4">
+                    <div class="card-header text-white">
+                        <h4 class="card-title"><i class="fas fa-keyboard"></i> Create trick</h4>
+                    </div>
+                    <div class="card-body bg-white text-primary">
+                        {% form_theme form '/themes/my_theme.html.twig' %}
+                        {{ form_start(form, {'attr': {'id':'form-figure'}}) }}
+                           <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="logo"><i class="fas fa-image"></i> Main Picture</label>
+                                    {% if form_errors(form.mainPicture)%}
+                                        {{ form_errors(form.mainPicture)|striptags }}
+                                    {% endif %}
+                                    {{ form_widget(form.mainPicture) }}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="category"><i class="fas fa-list-ul"></i> Main Movie</label>
+                                    {% if form_errors(form.mainMovie)%}
+                                        {{ form_errors(form.mainMovie) }}
+                                    {% endif %}
+                                    {{ form_widget(form.mainMovie) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="category"><i class="fas fa-list-ul"></i> Category</label>
+                                    {% if form_errors(form.category)%}
+                                        <span class="invalid-feedback d-block">
+                                                <span class="d-block">
+                                                    <span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.category)|striptags }}{% endautoescape %}</span>
+                                                </span>
+                                            </span>
+                                    {% endif %}
+                                    {{ form_widget(form.category) }}
+                                </div>
+                                {#<div class="form-group col-md-4">#}
+                                    {#<label for="slug"><i class="fab fa-adn"></i> Slug</label>#}
+                                    {#{% if form_errors(form.slug)%}#}
+                                        {#<span class="invalid-feedback d-block">#}
+                                                {#<span class="d-block">#}
+                                                    {#<span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.slug)|striptags }}{% endautoescape %}</span>#}
+                                                {#</span>#}
+                                            {#</span>#}
+                                    {#{% endif %}#}
+                                    {#{{ form_widget(form.slug) }}#}
+                                {#</div>#}
+                                <div class="form-group col-md-6">
+                                    <label for="name"><i class="fas fa-snowboarding"></i> Name</label>
+                                    {% if form_errors(form.name)%}
+                                        test
+                                        <span class="invalid-feedback d-block">
+                                                <span class="d-block">
+                                                    <span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.name)|striptags }}{% endautoescape %}</span>
+                                                </span>
+                                            </span>
+                                    {% endif %}
+                                    {{ form_widget(form.name) }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-12">
+                                    <label for="description"><i class="fas fa-newspaper"></i> Description</label>
+                                    {% if form_errors(form.description)%}
+                                        <span class="invalid-feedback d-block">
+                                                <span class="d-block">
+                                                    <span class="form-error-icon badge badge-danger text-uppercase">Error</span><span class="form-error-message" > {% autoescape false%}{{ form_errors(form.description)|striptags }}{% endautoescape %}</span>
+                                                </span>
+                                            </span>
+                                    {% endif %}
+                                    {{ form_widget(form.description) }}
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                            <div class="row">
+                                <div class="form-group col-md-6 ">
+                                    <label for="picture"><i class="fas fa-image"></i> Add Pictures <a id="addPictureButton" href="" class=""><i class="fas fa-plus"></i> </a></label>
+                                </div>
+                                <div class="form-group col-md-6 ">
+                                    <label for="movie"><i class="fab fa-youtube"></i> Add Movies <a id="addMovieButton" href="" class=""><i class="fas fa-plus"></i> </a></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6 overflow-auto" style="max-height: 180px !important">
+                                    <div class="pictures" data-prototype="{{ form_widget(form.pictures.vars.prototype)|e('html_attr') }}">
+                                        {% for picture in form.pictures %}
+                                            <div class="img-div">
+                                                {% if form_errors(picture)%}
+                                                    {{ form_errors(picture) }}
+                                                {% endif %}
+                                                <span>
+                                                    {{ form_widget(picture) }}
+                                                    <span class="img-form-path" style="display: none">{{ picture.vars.value.path }}</span>
+                                                </span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6 overflow-auto" style="max-height: 180px !important">
+                                    <div class="movies" data-prototype="{{ form_widget(form.movies.vars.prototype)|e('html_attr') }}">
+                                        {% for movie in form.movies %}
+                                            <div class="mov-div">
+                                                <span>
+                                                    {{ form_widget(movie) }}
+                                                    <span class="movie-form-url" style="display: none">{{ movie.vars.value.url }}</span>
+                                                </span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-2 text-center">
+                                <button id="btntest" type="submit" class="btn btn-primary">Add trick</button>
+                            </div>
+
+
+                        {{ form_end(form) }}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </header>
+    <script type="text/javascript" src="{{ asset('assets/js/figure.js') }}"></script>
+{% endblock %}

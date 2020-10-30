@@ -15,36 +15,55 @@
             </div>
         </div>
     </header>
-    <section class="about-section text-center" id="about">
+    <section class="about-section" id="about">
         <div class="container-fluid">
             <div class="row">
-                <div class="col">
+                <div class="col text-center">
                     <h2>Tricks</h2>
                     <p>This space is made to share our passion which unites us all, the SNOWBOARD</p>
                 </div>
             </div>
             <div class="row card-columns offset-1" id="rows_tricks">
                 {% for figure in listFigure %}
-                    <div class="col-lg-2 col-offset-lg-1">
-                        <div class="card bg-transparent">
-                            <div class="img-top container-fluid">
-                                <img class="img-fluid img-thumbnail" src="{{ asset('assets/img/tricks/' ~ figure.path) }}" alt="Trick picture">
+                    <div class="col-lg-2 tricks d-none">
+                        <div class="card bg-white shadow mb-4">
+                            <div class="img-top ">
+                                <img class="img-fluid img-thumbnail home" src="{{ asset('assets/img/tricks/' ~ figure.path) }}" alt="Trick picture">
                             </div>
-                            <div class="card-body">
-                                <p class="featured-text card-text text-white">{{ figure.figure.name }}</p>
+                            <div class="card-body home">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <a class="featured-text card-text text-primary" href="{{ path('showFigure',{'slug':figure.figure.slug}) }}">{{ figure.figure.name }}</a>
+                                    </div>
+                                    {% if is_granted('IS_AUTHENTICATED_FULLY') and (app.user.id == figure.figure.user.id) %}
+                                        <div class="col-md-4 float-right">
+                                            <a class="item" href="{{ path('edit_trick',{'slug': figure.figure.slug }) }}" data-toggle="tooltip" data-placement="bottom" title="Edit {{ figure.figure.name }} trick !"><i class="fas fa-edit"></i> </a>
+                                            <a class="item delete-link" href="" data-href="{{ path('delete_tricks',{'slug': figure.figure.slug }) }}" data-trigger="hover" data-toggle="tooltip" data-target="#staticBackdrop" target="_blank" data-placement="bottom" data-original-title="Delete {{ figure.figure.name }} trick !"> <i class="fas fa-trash"></i></a>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 {% endfor %}
             </div>
-            <div class="row">
-                <div class="col-md-2 offset-md-5">
-                    <a class="btn btn-primary js-scroll-trigger" href="#">Show more <i class="fas fa-ellipsis-h"></i></a>
+            <div class="row" id="divRowBtnHome">
+                <div class="form-group col-lg-6">
+                    <div class="float-right mr-0 divColBtnHome">
+                        <button type="button" class="btn btn-primary" id="show-more-tricks">
+                            <i class="fas fa-eye"></i> Show more ...
+                        </button>
+                    </div>
                 </div>
-                <div class="col-md-2 offset-md-2">
-                    <a class="btn btn-primary js-scroll-trigger" href="#page-top">Go to top <i class="fas fa-chevron-up"></i></a>
+                <div class="form-group col-lg-6">
+                    <div class="float-right mr-0 divColBtnHome">
+                        <a class="btn btn-primary js-scroll-trigger" href="#page-top">Go to top <i class="fas fa-chevron-up"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
+    {% block javascript %}
+        <script type="text/javascript" src="{{ asset('assets/js/default.js') }}"></script>
+    {% endblock %}
 {% endblock %}
