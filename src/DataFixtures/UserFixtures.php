@@ -41,7 +41,7 @@ class UserFixtures extends Fixture
             $user->setUsername(self::USER_REFERENCE.$i);
             $user->setPassword($this->passwordEncoder->encodePassword($user,self::USER_REFERENCE.$i));
             $user->setEmail(self::USER_REFERENCE.$i.'@yopmail.fr');
-            $user->setPathLogo("logo/logo-admin.png");
+            $user->setPathLogo("logo-admin.png");
             $user->setRoles(['ROLE_USER']);
             $user->setToken(self::USER_REFERENCE.$i);
             $user->setTokenAt(new \DateTime('+2 Hours'));

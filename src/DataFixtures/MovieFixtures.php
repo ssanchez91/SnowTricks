@@ -15,15 +15,15 @@ class MovieFixtures extends Fixture implements DependentFixtureInterface
     {
         $listMovie = [
             ['name'=>'indy', 'url'=>'https://www.youtube.com/embed/6yA3XqjTh_w'],
-            ['name'=>'melon', 'url'=>'https://youtu.be/OMxJRz06Ujc'],
-            ['name'=>'method', 'url'=>'https://youtu.be/_hxLS2ErMiY'],
-            ['name'=>'mute', 'url'=>'https://youtu.be/CflYbNXZU3Q'],
-            ['name'=>'nose', 'url'=>'https://youtu.be/Px2YuKQVS_g'],
-            ['name'=>'seatbelt', 'url'=>'https://youtu.be/4vGEOYNGi_c'],
-            ['name'=>'tail', 'url'=>'https://youtu.be/Kv0Ah4Xd8d0'],
-            ['name'=>'taipan', 'url'=>'https://youtu.be/J8s5iKqgGmA'],
-            ['name'=>'stalefish', 'url'=>'https://youtu.be/f9FjhCt_w2U'],
-            ['name'=>'tindy', 'url'=>'https://youtu.be/v8_mELZvdg4']
+            ['name'=>'melon', 'url'=>'https://www.youtube.com/embed/51sQRIK-TEI'],
+            ['name'=>'method', 'url'=>'https://www.youtube.com/embed/_hxLS2ErMiY'],
+            ['name'=>'mute', 'url'=>'https://www.youtube.com/embed/M5NTCfdObfs'],
+            ['name'=>'nose', 'url'=>'https://www.youtube.com/embed/51sQRIK-TEI'],
+            ['name'=>'seatbelt', 'url'=>'https://www.youtube.com/embed/4vGEOYNGi_c'],
+            ['name'=>'tail', 'url'=>'https://www.youtube.com/embed/_Qq-YoXwNQY'],
+            ['name'=>'taipan', 'url'=>'https://www.youtube.com/embed/J8s5iKqgGmA'],
+            ['name'=>'stalefish', 'url'=>'https://www.youtube.com/embed/f9FjhCt_w2U'],
+            ['name'=>'tindy', 'url'=>'https://www.youtube.com/embed/v8_mELZvdg4']
         ];
 
         foreach($listMovie as $row)

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PictureRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PictureRepository::class)
@@ -14,18 +16,22 @@ class Picture
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("tricks:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("tricks:read")
+     *
      */
     private $path;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups("tricks:read")
      */
-    private $defaultPicture;
+    private $defaultPicture = false;
 
     /**
      * @ORM\ManyToOne(targetEntity=Figure::class, inversedBy="pictures")

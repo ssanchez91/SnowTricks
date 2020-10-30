@@ -5,10 +5,14 @@ namespace App\Entity;
 use App\Repository\FigureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=FigureRepository::class)
+ * @UniqueEntity(fields={"name"}, message="There is already an trick with this name")
  */
 class Figure
 {
@@ -16,58 +20,84 @@ class Figure
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups("tricks:read")
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("tricks:read")
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups("tricks:read")
+     * @Assert\NotBlank(message="You must add a name", groups={"personal_error"})
+     * @Assert\Length(
+     *     min=3,
+     *     max=30,
+     *     minMessage="The name should contain at least {{ limit }} characters",
+     *     maxMessage="The name should not contain more than {{ limit }} characters",
+     *     allowEmptyString=false,
+     *     groups={"personal_error"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups("tricks:read")
+     * @Assert\NotBlank(message="You must add a description")
+     * @Assert\Length(
+     *     min=30,
+     *     minMessage="The description should contain at least {{ limit }} characters",
+     *     allowEmptyString=false,
+     *     groups={"personal_error"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("tricks:read")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups("tricks:read")
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("tricks:read")
+     *
      */
     private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="figures")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups("tricks:read")
      */
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="figure", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="figure", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Assert\Valid()
      */
     private $pictures;
 
     /**
-     * @ORM\OneToMany(targetEntity=Movie::class, mappedBy="figure", cascade={"persist"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Movie::class, mappedBy="figure", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @Groups("tricks:read")
      */
     private $movies;
 
     /**
-     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="figure", cascade={"persist", "remove"})
+     * @Groups("tricks:read")
      */
     private $comments;
 

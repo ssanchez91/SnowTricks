@@ -9,33 +9,46 @@ $(document).ready(function(){
 
     $("#btnAddComment").on("click", function() {
 
+        let commentContent = $("textarea#comment_content").val();
         $.ajax({
             url: $("#com-form").attr("action"),
             type: "POST",
             dataType: "JSON",
             data: {
                 figure: figure,
-                comment: $("textarea#comment_content").val()
+                comment: commentContent
             },
-            beforeSend: function() {
-                console.log('je vais poster');
+            beforeSend: function(xhr) {
+                if(checkContent(commentContent) == false)
+                {
+                    xhr.abort();
+                }
             },
             success: function(response) {
                 runProcessSuccessResponse(JSON.parse(response));
             },
-            fail: function(xhr) {
+            error: function(xhr) {
                 var errors = JSON.parse(xhr.responseText);
-
                 console.log(errors);
             }
         });
     });
 
+    $("#btnShowMedias").click(function(e)
+    {
+        if($(this).val() == "show medias")
+        {
+            $("#divShowMedias").css('display', 'block');
+            $(this).val("hide medias")
+        }
+        else
+        {
+            $("#divShowMedias").css('display', 'none');
+            $(this).val("show medias")
+        }
 
+    })
 });
-
-
-
 
 function runProcessSuccessResponse(comment)
 {
@@ -43,16 +56,13 @@ function runProcessSuccessResponse(comment)
     addNewComment(comment);
     initComment();
     initAlertComment();
-
-
 }
 
 function runProcessErrorResponse(error){
     console.log(error);
 }
 
-function addNewComment(comment)
-{
+function addNewComment(comment){
     var date_commentaire = comment.createdAt.substring(8,10)+'/'+comment.createdAt.substring(5,7)+'/'+comment.createdAt.substring(0,4)+' '+comment.createdAt.substring(11,19);
     var new_comment = '<div class="row comment d-none">'+
         '<div class="col-lg-2 text-center m-auto">'+
@@ -70,13 +80,17 @@ function addNewComment(comment)
 
 function initComment(){
     $(".comment").addClass("d-none");
-    var limitComment = 5;
-    $(".comment").slice(0, limitComment).removeClass("d-none");
+    let limitComment = 5;
+    let listComment =  $(".comment");
+    listComment.slice(0, limitComment).removeClass("d-none");
     $("#show-more-comment").on("click", function(e) {
         limitComment += 5;
         e.preventDefault();
-        $(".comment").slice(0, limitComment).removeClass("d-none");
+        listComment.slice(0, limitComment).removeClass("d-none");
     });
+    if(listComment.length > 5){
+        $("#show-more-comment").removeClass('d-none');
+    }
 }
 
 function initAlertComment(){
@@ -93,6 +107,21 @@ function initAlertComment(){
 }
 
 function razAlertComment(){
-    $("#alertComment").removeClass('alert-success').text('').addClass('d-none');
+    $("#alertComment").removeClass('alert-success').removeClass('alert-warning').text('').addClass('d-none');
+}
+
+function checkContent(commentContent){
+    if(commentContent.length < 15) {
+
+        razAlertComment();
+
+        $("#alertComment").addClass('alert-warning').append('<button type="button" class="close" id="hideAlertComment">' +
+            '<span aria-hidden="true">&times;</span>' +
+            '</button>Your comment is too short ! (min : 15 caracters)').removeClass('d-none');
+
+        return false;
+    }
+
+    return true;
 }
 

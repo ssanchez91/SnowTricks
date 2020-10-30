@@ -1,0 +1,4 @@
+exclude_patterns:
+- "DB/"
+- "Diagramme UML/"
+- "public/assets/css/"

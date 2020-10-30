@@ -43,6 +43,7 @@ class MovieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Movie::class,
+            'validation_class' => ['Default', 'personal_error'],
         ]);
     }
 }

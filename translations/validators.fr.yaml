@@ -1,0 +1,20 @@
+'This Pseudo already exists': 'Ce pseudo existe déjà.'
+'Your Firstname should contain at least {{ limit }} characters': 'Votre Prénom doit contenir au moins {{ limit }} caractères.'
+'Your Firstname should not contain more than {{ limit }} characters': 'Votre Prénom ne doit pas contenir plus de {{ limit }} caractères.'
+'Your Lastname should contain at least {{ limit }} characters': 'Votre Nom doit contenir au moins {{ limit }} caractères.'
+'Your Lastname should not contain more than {{ limit }} characters': 'Votre Nom ne doit pas contenir plus de {{ limit }} caractères.'
+'Your Username should contain at least {{ limit }} characters': 'Votre Pseudo doit contenir au moins {{ limit }} caractères.'
+'Your Username should not contain more than {{ limit }} characters': 'Votre Pseudo ne doit pas contenir plus de {{ limit }} caractères.'
+'Your Password should contain at least {{ limit }} characters': 'Votre Password doit contenir au moins {{ limit }} caractères.'
+'You must choose a username': 'Vous devez saisir un Pseudo.'
+'You must choose a Firstname': 'Vous devez saisir votre Prénom.'
+'You must choose a Lastname': 'Vous devez saisir votre Nom.'
+'You must enter an email': 'Vous devez saisir votre Email.'
+'You must choose a Password': 'Vous devez saisir un Password.'
+"The Email '{{ value }}' is not a valid email": "Le mail '{{ value }}' n'est pas un email valide."
+'The CSRF token is invalid. Please try to resubmit the form.': "Une erreur s'est produite, veuillez rafraîchir la page et rééssayer."
+'This url is not a valid url': "Cette url n'est pas valide !"
+'Please upload a valid file': "Extension de fichier refusée !"
+"Your message can't be empty": 'Veuillez saisir un commentaire.'
+'Your message should contain at least {{ limit }} characters': 'Votre Commentaire doit contenir au moins {{ limit }} caractères.'
+'Your message should not contain more than {{ limit }} characters': 'Votre Commentaire ne doit pas contenir plus de {{ limit }} caractères.'
