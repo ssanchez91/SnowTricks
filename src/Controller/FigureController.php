@@ -88,7 +88,7 @@ class FigureController extends AbstractController
     public function addTrick(Request $request, FigureService $figureService): Response
     {
         $figure = new Figure();
-        $form = $this->createForm(FigureType::class, $figure);
+        $form = $this->createForm(FigureType::class, $figure, ['routeName' => $request->attributes->get('_route')]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
@@ -109,7 +109,7 @@ class FigureController extends AbstractController
     public function editTrick(Request $request, FigureService $figureService, FigureRepository $figureRepository, string $slug, SluggerInterface $sluggerInterface)
     {
         $figure = $figureRepository->findOneBy(array('slug'=>$slug));
-        $form = $this->createForm(EditFigureType::class, $figure);
+        $form = $this->createForm(FigureType::class, $figure, ['routeName' => $request->attributes->get('_route')]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
