@@ -1,0 +1,168 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Show {{ figure.name }} Tricks{% endblock %}
+
+{% block body %}
+    <div class="container d-flex h-100 align-items-center">
+        <div class="col-lg-12">
+            <div class="card bg-primary shadow mb-4 m-lg-5 card-show-figure-detail">
+                {% for picture in figure.pictures %}
+                    {%  if picture.defaultPicture == true %}
+                        <div class="card-header card-figure-header" style="min-height: 35rem; background: url('{{ asset('assets/img/tricks/' ~ picture.path) }}'); background-position: center; background-size: cover">
+                            {% if is_granted('IS_AUTHENTICATED_FULLY') and (app.user.id == figure.user.id) %}
+                                <div class="row float-right">
+                                    <a class="item" href="{{ path('edit_trick',{'slug': figure.slug }) }}" data-toggle="tooltip" data-placement="bottom" title="Edit {{ figure.name }} trick !"> <i class="fas fa-edit icon-figure-header"></i></a>
+                                    <a class="item delete-link" data-href="{{ path('delete_tricks',{'slug': figure.slug }) }}" data-trigger="hover" data-toggle="tooltip" data-target="#staticBackdrop" target="_blank" data-placement="bottom" title="Delete {{ figure.name }} trick !"> <i class="fas fa-trash icon-figure-header"></i></a>
+                                </div>
+                            {% endif %}
+                            <div class="row align-items-center" id="title-figure">
+                                <h1 class="mx-auto my-0 text-uppercase text-center">{{ figure.name }}</h1>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="card-body bg-white text-primary">
+                    <div class="text-center" id="divBtnShowMedias">
+                        <input id="btnShowMedias" type="button" class="btn btn-primary" value="show medias" />
+                    </div>
+                    <hr class="my-3">
+                    <div class="row" id="divShowMedias">
+                        <div class="col-md-6 fig-img">
+                            <div class="row justify-content-center">
+                                <div id="carouselPicture" class="carousel slide carousel-fade" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        {% for picture in figure.pictures %}
+                                            {%  if picture.defaultPicture == true %}
+                                                {% set mainPicture = figure.name %}
+                                                <li data-target="#carouselPicture" data-slide-to="{{ figure.name }}" class="active"></li>
+                                            {% else %}
+                                                <li data-target="#carouselPicture" data-slide-to="{{ figure.name }}"></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ol>
+                                    {% for picture in figure.pictures %}
+                                        {%  if picture.defaultPicture == true %}
+                                            <div class="carousel-item active">
+                                                <img class="col-lg-12 pic" src="{{ asset('assets/img/tricks/' ~ picture.path) }}" alt="{{ figure.name }}" />
+                                            </div>
+                                        {% else %}
+                                            <div class="carousel-item">
+                                                <img class="col-lg-12 pic" src="{{ asset('assets/img/tricks/' ~ picture.path) }}" alt="{{ figure.name }}" />
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a class="carousel-control-prev" href="#carouselPicture" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselPicture" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 fig-vid">
+                            <div class="row justify-content-center">
+                                <div id="carouselMovies" class="carousel slide carousel-fade" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        {% for movie in figure.movies %}
+                                            {% if loop.index == 1%}
+                                                <li data-target="#carouselMovies" data-slide-to="{{ figure.id }}" class="active"></li>
+                                            {% else %}
+                                                <li data-target="#carouselMovies" data-slide-to="{{ figure.id }}"></li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ol>
+                                    {% for movie in figure.movies %}
+                                        {% if loop.index == 1%}
+                                            <div class="carousel-item active">
+                                                <iframe class="col-lg-12 vid" src="{{ movie.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            </div>
+                                        {% else %}
+                                            <div class="carousel-item">
+                                                <iframe class="col-lg-12 vid" src="{{ movie.url }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                    <a class="carousel-control-prev" href="#carouselMovies" role="button" data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#carouselMovies" role="button" data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bd-callout bd-callout-primary">
+                        <h5>{{ figure.name }}</h5>
+                        {{ figure.description }}
+                    </div>
+                    <hr class="my-4">
+                    <div class="row col-lg-12">
+                        <div class="text-center">
+                            <span class="badge badge-pill badge-primary mt-2"><i class="fas fa-user"></i> Author : {{ figure.user.firstname }} {{ figure.user.lastname }} </span>
+                            <span class="badge badge-pill badge-warning mt-2"><i class="fas fa-calendar"></i> Created Date : {{ figure.createdAt|date('d/m/Y H:i:s') }} </span>
+                            <span class="badge badge-pill badge-primary mt-2"><i class="fas fa-calendar"></i> Updated Date : {{ figure.updatedAt|date('d/m/Y H:i:s') }} </span>
+                            <span class="badge badge-pill badge-warning mt-2"><i class="fas fa-snowboarding"></i> Category : {{ figure.category.name }} </span>
+                        </div>
+                    </div>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <hr class="my-4">
+                        <div id="alertComment" class="alert d-none">
+                        </div>
+                        <div class="bd-callout bd-callout-primary">
+                            <h5><i class="fas fa-comment" ></i> Leave a comment</h5>
+                            {{ form_start(form, {'attr': {'action':path('add_comment'), 'id': 'com-form' }} ) }}
+                                    {{ form_widget(form) }}
+                                <div class="mt-2 text-center">
+                                    <input id="btnAddComment" type="button" class="btn btn-primary" value="Add comment" />
+                                </div>
+                            {{ form_end(form) }}
+                        </div>
+                    {% endif %}
+                    <hr class="my-4">
+                    <div id="listComment">
+                        {% for comment in figure.comments|sort|reverse %}
+                            <div class="row comment d-none">
+                                <div class="col-lg-2 text-center m-auto">
+                                    <img style="width:75px; height:75px; border:2px solid #f0ad4e" class="rounded-circle" src="{{ asset('assets/img/logo/' ~ comment.user.pathLogo) }}" alt="user-logo"/>
+                                </div>
+                                <div class="col-lg-10">
+                                    <div class="bd-callout bd-callout-warning">
+                                        <p><i class="fas fa-comment"></i> {{ comment.content }}</p>
+                                        <p class="text-muted">Author : {{ comment.user.username }} - Created date : {{ comment.createdAt|date('d/m/Y H:i:s') }} </p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                        <div class="mt-2 text-center">
+                            <button type="button" class="btn btn-primary d-none" id="show-more-comment">
+                                <i class="fas fa-eye"></i> Show more comments
+                            </button>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascript %}
+        <script type="text/javascript" src="{{ asset('assets/js/comment.js') }}" ></script>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                figure = {{ figure.slug|json_encode|raw }};
+                {% if app.user is defined and app.user is not null %}
+                    username = {{ app.user.username|json_encode|raw }};
+                    pathLogo = {{ app.user.pathLogo|json_encode|raw }};
+                {% endif %}
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
+
