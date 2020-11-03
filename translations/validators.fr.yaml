@@ -6,6 +6,7 @@
 'Your Username should contain at least {{ limit }} characters': 'Votre Pseudo doit contenir au moins {{ limit }} caractères.'
 'Your Username should not contain more than {{ limit }} characters': 'Votre Pseudo ne doit pas contenir plus de {{ limit }} caractères.'
 'Your Password should contain at least {{ limit }} characters': 'Votre Password doit contenir au moins {{ limit }} caractères.'
+'The password must contain between 8 and 24 alphanumeric characters including an upper case, a lower case, a number and a special character.': 'Le mot de passe doit contenir entre 8 et 24 caractères alphanumériques dont une majuscule, une minuscule, un chiffre et un caractère spécial.'
 'You must choose a username': 'Vous devez saisir un Pseudo.'
 'You must choose a Firstname': 'Vous devez saisir votre Prénom.'
 'You must choose a Lastname': 'Vous devez saisir votre Nom.'

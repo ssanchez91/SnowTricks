@@ -12,9 +12,11 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -35,6 +37,21 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('pathLogo', FileType::class, [
                 'attr'=>['class'=>'form form-control'],
+                'constraints' => [
+                    new File(
+                        [
+                            'maxSize' => '1M',
+                            'maxSizeMessage' => 'Your Picture is more bigger !',
+                            'mimeTypes' =>
+                                [
+                                    'image/jpg',
+                                    'image/jpeg',
+                                    'image/png',
+                                ],
+                            'mimeTypesMessage' => 'Please upload a valid picture',
+                        ]
+                    )
+                ]
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

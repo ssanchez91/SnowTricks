@@ -20,7 +20,6 @@ class MovieController extends AbstractController
     {
         if($this->isCsrfTokenValid('delete_movie', $request->request->get('_token')))
         {
-
             if($movieService->deleteMovie($movie))
             {
                 return new JsonResponse(['success' => 1, "delete_movie" => true ]);
