@@ -48,7 +48,11 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Groups("tricks:read")     *
+     * @Groups("tricks:read")
+     * @Assert\Regex(
+     *  pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[[:punct:]])[a-zA-Z\d[:punct:]]{8,24}$/",
+     *  message="The password must contain between 8 and 24 alphanumeric characters including an upper case, a lower case, a number and a special character.")
+     *
      */
     private $password;
 
@@ -56,11 +60,12 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      * @Groups("tricks:read")
      * @Assert\NotBlank(message="You must select a picture")
-     * @Assert\Image(
-     *      mimeTypes={"image/jpeg", "image/png"},
-     *      mimeTypesMessage="This file is not a valid image.")
-     * @Assert\File(maxSize="1M",
-     * maxSizeMessage="The file is too large ({{ size }} {{ suffix }}). Allowed maximum size is {{ limit }} {{ suffix }}.")
+     * @Assert\Regex(
+     *      pattern="/^.*\.(png|jpg|jpeg)$/",
+     *      message="you must upload jpg or png file",
+     *      groups={"phpUnitTest"})
+     * )
+     *
      */
     private $pathLogo;
 

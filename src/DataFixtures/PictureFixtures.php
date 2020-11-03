@@ -24,7 +24,6 @@ class PictureFixtures extends Fixture implements DependentFixtureInterface
             $this->addReference(self::PICTURE_REFERENCE.$pictureName, $picture);
             $manager->persist($picture);
         }
-
         $manager->flush();
     }
 

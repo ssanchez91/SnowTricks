@@ -64,19 +64,11 @@ class FigureController extends AbstractController
         $figure = $this->figureRepository->findOneBy(['slug' => $slug]);
         $em = $this->getDoctrine()->getManager();
 
-        if($figure && ($this->getUser() == $figure->getUser()))
+        if($this->checkAcces($figure, 'delete'))
         {
             $em->remove($figure);
             $em->flush();
             $this->addFlash("success", 'Your trick has just been deleted !');
-        }
-        else if(!$figure)
-        {
-            $this->addFlash("warning", 'This trick doesn\'t exist !');
-        }
-        else if($this->getUser() != $figure->getUser())
-        {
-            $this->addFlash("danger", 'You are not authorized to delete this trick ! ');
         }
 
         return $this->redirectToRoute('home');
@@ -109,28 +101,50 @@ class FigureController extends AbstractController
     public function editTrick(Request $request, FigureService $figureService, FigureRepository $figureRepository, string $slug, SluggerInterface $sluggerInterface)
     {
         $figure = $figureRepository->findOneBy(array('slug'=>$slug));
-        $form = $this->createForm(FigureType::class, $figure, ['routeName' => $request->attributes->get('_route')]);
-        $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
+        if($this->checkAcces($figure, 'edit'))
         {
-            try
+            $form = $this->createForm(FigureType::class, $figure, ['routeName' => $request->attributes->get('_route')]);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid())
             {
-                $updateFigure = $figureService->updateTrick($figure);
-                $this->addFlash('success', 'Your Trick '. $updateFigure->getName() .' has just been updated !');
-                return $this->redirectToRoute('showFigure', ['slug' => $updateFigure->getSlug()]);
+                try
+                {
+                    $updateFigure = $figureService->updateTrick($figure);
+                    $this->addFlash('success', 'Your Trick '. $updateFigure->getName() .' has just been updated !');
+                    return $this->redirectToRoute('showFigure', ['slug' => $updateFigure->getSlug()]);
+                }
+                catch(Exception $e)
+                {
+                    $this->addFlash('warning', $e->getMessage());
+                    return $this->redirectToRoute('edit_trick', ['slug' => $figure->getSlug()]);
+                }
             }
-            catch(Exception $e)
-            {
-                $this->addFlash('warning', $e->getMessage());
-                return $this->redirectToRoute('edit_trick', ['slug' => $figure->getSlug()]);
-            }
+            return $this->render('figure/editTrick.html.twig', ['form' => $form->createView(),'pictures' => $figure->getPictures(),'movies' => $figure->getMovies()]);
         }
-        return $this->render('figure/editTrick.html.twig', [
-            'form' => $form->createView(),
-            'pictures' => $figure->getPictures(),
-            'movies' => $figure->getMovies()
-        ]);
+        return $this->redirectToRoute('home');
+    }
+
+    /**
+     * @param Figure $figure
+     * @return bool
+     */
+    public function checkAcces($figure, string $action): bool
+    {
+        if($figure instanceof Figure && ($this->getUser() == $figure->getUser()))
+        {
+            return true;
+        }
+        else if(!$figure)
+        {
+            $this->addFlash("warning", 'This trick doesn\'t exist !');
+        }
+        else if($this->getUser() != $figure->getUser())
+        {
+            $this->addFlash("danger", 'You are not authorized to '. $action .' this trick ! ');
+        }
+
+        return false;
     }
 
 }

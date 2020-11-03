@@ -34,7 +34,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if($form->isSubmitted() && $form->isValid())
         {
             //create user in database
             $user = $userService->createUser($user, $form->get('password')->getData(), $request);
@@ -44,12 +44,10 @@ class RegistrationController extends AbstractController
 
             //send email activation
             $mailerSecurity->sendActivationLink($user, $url);
-
             $this->addFlash('info', 'Check your email and click on the link to activate your account.');
 
             return $this->redirectToRoute('app_login');
         }
-
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);

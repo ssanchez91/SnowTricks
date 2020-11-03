@@ -1,0 +1,27 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-lg-8 m-auto">
+        <div class="card bg-primary mt-5 shadow mb-4">
+            <div class="card-header text-white">
+                <h4 class="card-title"><i class="fas fa-exclamation-triangle"></i> Error 404</h4>
+            </div>
+            <div class="card-body bg-white text-primary">
+                <div class="mx-auto text-center">
+                    <h1 class="mx-auto my-0 text-uppercase">Page not found</h1>
+                    <h2 class="text-primary mx-auto mt-2 mb-5">
+                        The requested page couldn't be located. Checkout for any URL
+                        misspelling or <a href="{{ path('home') }}">return to the homepage</a>.</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascript %}
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("body").css("background-image","url('../assets/img/bg_error404.webp')").css("background-size","cover").css("background-repeat","no-repeat"); //edit, body must be in quotes!
+            });
+        </script>
+    {% endblock %}
+{% endblock %}
