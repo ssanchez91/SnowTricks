@@ -33,7 +33,7 @@ Les fonctinnalités décrites dans les diagrammes concernent les figures, les co
 <li>Le framework Bootstrap a été utilisé pour l'affichage des vues.<a href="https://getbootstrap.com/" target="_blank"> Plus d'informations</a></li>
 <li>La librairie JQuery a été utilisé pour coder les parties nécessitant l'intervention de code JavaScript.</li>
 <hr>
-<h2>Installation</h2><br>
+<h2>Installation</h2>
 <h3>Environnement nécessaire</h3>
 <ul>
   <li>Symfony 5.1.*</li>
@@ -49,9 +49,10 @@ Les fonctinnalités décrites dans les diagrammes concernent les figures, les co
     - pour renseigner configuration pour l'envois de mail dans la variable MAILER_DSN  
   <li><b>Etape 3 :</b> Démarrer votre environnement local (Par exemple : Wamp Server)</li>
   <li><b>Etape 4 :</b> Exécuter les commandes symfony suivantes depuis votre terminal</li>
-  <code>symfony console doctrine:database:create (ou php bin/console d:d:c si vous n'avez pas installé le client symfony)
-  symfony console doctrine:migrations:migrate
-  symfony console doctrine:fictures:load  
+  <code>
+    symfony console doctrine:database:create (ou php bin/console d:d:c si vous n'avez pas installé le client symfony)<br/>
+    symfony console doctrine:migrations:migrate<br/>
+    symfony console doctrine:fictures:load  
   </code>
 </ul>
   
