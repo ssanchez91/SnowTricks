@@ -34,8 +34,20 @@ Les fonctinnalités décrites dans les diagrammes concernent les figures, les co
 <li>La librairie JQuery a été utilisé pour coder les parties nécessitant l'intervention de code JavaScript.</li>
 <hr>
 <h2>Installation</h2><br>
+<h3>Environnement nécessaire</h3>
 <ul>
-  <li><b>Etape 1 :</b> Copier les fichiers dans le dossier racine de votre serveur web (en général "www/").</li>
+  <li>Symfony 5.1.*</li>
+  <li>PHP 7.3.*</li>
+  <li>MySql 8</li>
+</ul>
+<h3>Suivre les étapes suivantes :</h3>
+<ul>
+  <li><b>Etape 1 :</b> Cloner le repository suivant depuis votre terminal :</li>
+  <pre>
+      <code>
+          git clone
+      </code>
+  </pre>    
   <li><b>Etape 2 :</b> Créer une base données sur votre SGDB (MySQL) et importer le fichier DB/blog.sql pour créer les tables du blog.</li>
   <li><b>Etape 3 :</b> Dans le fichier Config/config.json, modifier les paramètres dans la section <b>dataBase:</b></li>
 </ul>
