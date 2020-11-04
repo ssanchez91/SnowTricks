@@ -43,62 +43,17 @@ Les fonctinnalités décrites dans les diagrammes concernent les figures, les co
 <h3>Suivre les étapes suivantes :</h3>
 <ul>
   <li><b>Etape 1 :</b> Cloner le repository suivant depuis votre terminal :</li>
-  <pre>
-      <code>
-          git clone
-      </code>
-  </pre>    
-  <li><b>Etape 2 :</b> Créer une base données sur votre SGDB (MySQL) et importer le fichier DB/blog.sql pour créer les tables du blog.</li>
-  <li><b>Etape 3 :</b> Dans le fichier Config/config.json, modifier les paramètres dans la section <b>dataBase:</b></li>
+  <code>git clone https://github.com/ssanchez91/SnowTricks.git</code>     
+  <li><b>Etape 2 :</b> Editer le fichier .env </li>
+    - pour renseigner vos paramètres de connexion à votre base de donnée dans la variable DATABASE_URL
+    - pour renseigner configuration pour l'envois de mail dans la variable MAILER_DSN  
+  <li><b>Etape 3 :</b> Démarrer votre environnement local (Par exemple : Wamp Server)</li>
+  <li><b>Etape 4 :</b> Exécuter les commandes symfony suivantes depuis votre terminal</li>
+  <code>symfony console doctrine:database:create (ou php bin/console d:d:c si vous n'avez pas installé le client symfony)
+  symfony console doctrine:migrations:migrate
+  symfony console doctrine:fictures:load  
+  </code>
 </ul>
-
-<h4>dataBase:</h4>
-    <p>{
-      "host": "localhost",<br>
-      "dbname": "yourDataBaseName",<br>
-      "user": "yourLogin",<br>
-      "password": "yourPassword"<br>
-  }</p>
-
-<b>Important</b>
- Veuillez à bien remplir tout les champs avec vos informations de la même façon que celle fournit dans l'exemple !
-
-<ul>
-  <li><b>Etape 4 :</b> Dans le fichier Config/config.json, modifier les paramètres dans la section <b>mailManager:</b></li>
-</ul>
-<h4>mailManager:</h4>
-    <p>{
-      "mailTo": "yourAdresse@email.fr ",<br>
-      "mailFrom": "noreply@domain.fr"<br>   
-  }</p>
   
-  <ul>
-  <li><b>Etape 5 :</b> Dans le fichier Config/config.json, modifier les paramètres dans la section <b>basePath:</b></li>
-</ul>
-<h4>basePath:</h4>
-    <p>"/Blog"<em> Enter <strong>"/"</strong> and your <strong>base directory name</strong> </em></p> 
-  
-<h3>Votre Blog est maintenant installé !</h3>
-<p>Pour afficher la page d'accueil de votre Blog entrer l'url suivante dans votre navigateur : <em>http://yourAdress.fr/basePath/default</em></p>
-<hr>
-<h2>Créer un compte utilisateur</h2><br>
-<ul>
-  <li>Rendez-vous sur l'url suivante : <em>http://yourAdress.fr/basePath/registerUser</em></p></li><br> 
-  <li>Renseigner les informations demandées dans le formulaire et cliquer sur le bouton pour valider l'inscription.</li><br>
-</ul>
-<hr>
-<h2>Obtenir un compte Admin</h2><br>
-<ul>
-  <li>Dans votre base de données, dans la table "user", récupérer <b>l'id du user</b> que vous venez de créer.
-  <li>Dans votre base de données, dans la table "role_user", ajouter les deux lignes suivante dans l'editeur de requête SQL :
-    <ul>
-      <li> INSERT INTO `role_user`(`user_id`, `role_id`) VALUES (<b>your userId</b>,<b>1</b>); <em>Pour vous donner le role Admin</em> </li><br>
-      <li> INSERT INTO `role_user`(`user_id`, `role_id`) VALUES (<b>your userId</b>,<b>3</b>); <em>Pour vous donner le role Auteur</em> </li><br>
-    </ul>  
-  <li>et éxécuter la requête.</li><br>
-</ul>
-<p>Vous disposez désormais d'un compte administrateur qui vous permet de gérer votre blog via l'interface d'administration accessible en utilisant la route suivante :</p>
-<ul>
-  <li><em>http://yourAdress.fr/basePath/admin</em>
-  </li>
-</ul>  
+<h3>Votre site est maintenant installé !</h3>
+<p>Pour afficher la page d'accueil de votre site entrer l'url suivante dans votre navigateur : <em>http://yourAdress.domain.fr/home</em></p>
