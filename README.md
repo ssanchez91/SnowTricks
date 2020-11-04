@@ -43,17 +43,18 @@ Les fonctinnalités décrites dans les diagrammes concernent les figures, les co
 <h3>Suivre les étapes suivantes :</h3>
 <ul>
   <li><b>Etape 1 :</b> Cloner le repository suivant depuis votre terminal :</li>
-  <code>git clone https://github.com/ssanchez91/SnowTricks.git</code>     
+  <pre>
+  <code>git clone https://github.com/ssanchez91/SnowTricks.git</code></pre>     
   <li><b>Etape 2 :</b> Editer le fichier .env </li>
     - pour renseigner vos paramètres de connexion à votre base de donnée dans la variable DATABASE_URL
     - pour renseigner configuration pour l'envois de mail dans la variable MAILER_DSN  
   <li><b>Etape 3 :</b> Démarrer votre environnement local (Par exemple : Wamp Server)</li>
   <li><b>Etape 4 :</b> Exécuter les commandes symfony suivantes depuis votre terminal</li>
-  <code>
+  <pre><code>
     symfony console doctrine:database:create (ou php bin/console d:d:c si vous n'avez pas installé le client symfony)<br/>
     symfony console doctrine:migrations:migrate<br/>
     symfony console doctrine:fictures:load  
-  </code>
+  </code></pre>
 </ul>
   
 <h3>Votre site est maintenant installé !</h3>
