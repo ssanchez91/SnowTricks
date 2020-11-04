@@ -12,11 +12,10 @@ Projet 6 - OCR - SSANCHEZ
 ![backend](https://github.com/ssanchez91/SnowTricks/blob/main/public/assets/img/Readme/ShowTrick.PNG)
 
 <h3>Documentation</h3>
-<p>L'ensemble du code source a été commenté. L'utilsation de PhpDocumentor a permis de générer une documentation sous forme de site web.</p>
-<p>Le site de documentation est accessible à l'url suivante : <em>http://yourAdress.fr/basePath/Docs/index.html</em></p>
+<p>L'ensemble du code source a été commenté. L'utilsation de PhpDocBlocker a permis de générer une documentation claire et précise.</p>
 
 <h3>Diagrammes UML</h3>
-Les schémas UML se situent dans le dossier diagrammes à la racine du projet:
+Les schémas UML se situent dans le dossier Diagramme UML à la racine du projet:
 <ul>
   <li>Diagramme de classe</li>
   <li>Diagramme de cas d'utilsation</li>
