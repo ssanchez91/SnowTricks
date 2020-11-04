@@ -17,6 +17,9 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\File\File;
 
+/**
+ * PictureService class
+ */
 class PictureService
 {
     /**
@@ -36,6 +39,14 @@ class PictureService
      */
     private $loggerInterface;
 
+    /**
+     * __construct PictureService
+     *
+     * @param EntityManagerInterface $entityManagerInterface
+     * @param ContainerBagInterface $containerBagInterface
+     * @param FileUploaderService $fileUploaderService
+     * @param LoggerInterface $loggerInterface
+     */
     public function __construct(EntityManagerInterface $entityManagerInterface, ContainerBagInterface $containerBagInterface, FileUploaderService $fileUploaderService, LoggerInterface $loggerInterface){
 
         $this->entityManagerInterface = $entityManagerInterface;
@@ -44,6 +55,13 @@ class PictureService
         $this->loggerInterface = $loggerInterface;
     }
 
+    /**
+     * addPicture
+     *
+     * @param File $file
+     * @param Figure $figure
+     * @return mixed
+     */
     public function addPicture(File $file, Figure $figure)
     {
         try
@@ -64,6 +82,12 @@ class PictureService
         return $picture;
     }
 
+    /**
+     * deletePicture
+     *
+     * @param [type] $picture
+     * @return boolean
+     */
     public function deletePicture($picture): bool
     {
         if($picture->getDefaultPicture() === true)
@@ -81,6 +105,12 @@ class PictureService
         }
     }
 
+    /**
+     * defaultPicture
+     *
+     * @param Picture $picture
+     * @return boolean
+     */
     public function defaultPicture(Picture $picture): bool
     {
         try
@@ -98,6 +128,12 @@ class PictureService
         return true;
     }
 
+    /**
+     * razDefaultPicture
+     *
+     * @param Figure $figure
+     * @return void
+     */
     private function razDefaultPicture(Figure $figure): void
     {
         $pictures = $figure->getPictures();

@@ -8,10 +8,7 @@
 
 namespace App\Service;
 
-
-
 use App\Entity\Figure;
-use App\Repository\FigureRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -19,8 +16,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 
+/**
+ * FigureService class
+ */
 class FigureService
 {
     /**
@@ -44,6 +43,15 @@ class FigureService
      */
     private $sluggerInterface;
 
+
+    /**
+     * __construct FigureService
+     *
+     * @param EntityManagerInterface $entityManagerInterface
+     * @param FileUploaderService $fileUploaderService
+     * @param Security $security
+     * @param SluggerInterface $sluggerInterface
+     */
     public function __construct(EntityManagerInterface $entityManagerInterface, FileUploaderService $fileUploaderService, Security $security, SluggerInterface $sluggerInterface)
     {
         $this->entityManagerInterface = $entityManagerInterface;
@@ -126,6 +134,12 @@ class FigureService
         }
     }
 
+    /**
+     * updateTrick
+     *
+     * @param Figure $figure
+     * @return Figure
+     */
     public function updateTrick(Figure $figure): Figure
     {
         $figure->setSlug($this->sluggerInterface->slug($figure->getName()));

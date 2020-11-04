@@ -7,26 +7,26 @@ use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\MailerSecurity;
 use App\Service\UserService;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mime\Address;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+
+/**
+ * RegistrationController class
+ */
 class RegistrationController extends AbstractController
 {
-
-    public function __construct()
-    {
-
-    }
-
     /**
+     * Register user
+     * 
      * @Route("/register", name="app_register")
+     *
+     * @param Request $request
+     * @param UserService $userService
+     * @param MailerSecurity $mailerSecurity
+     * @return Response
      */
     public function register(Request $request, UserService $userService, MailerSecurity $mailerSecurity): Response
     {
@@ -54,7 +54,14 @@ class RegistrationController extends AbstractController
     }
 
     /**
+     * Enable user
+     * 
      * @Route("/activate/user", name="app_user_activation")
+     *
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param UserService $userService
+     * @return Response
      */
     public function activateUser(Request $request, UserRepository $userRepository, UserService $userService): Response
     {

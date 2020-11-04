@@ -29,6 +29,13 @@ class CommentService
      */
     private $security;
 
+    /**
+     * __construct CommentService
+     *
+     * @param CommentRepository $commentRepository
+     * @param FigureRepository $figureRepository
+     * @param Security $security
+     */
     public function __construct(CommentRepository $commentRepository, FigureRepository $figureRepository, Security $security)
     {
         $this->commentRepository = $commentRepository;
@@ -36,7 +43,14 @@ class CommentService
         $this->security = $security;
     }
 
-    public function addComment($content_comment, $slug)
+    /**
+     * Add comment
+     *
+     * @param String $content_comment
+     * @param String $slug
+     * @return Comment
+     */
+    public function addComment(String $content_comment, String $slug): Comment
     {
         $comment = new Comment();
         $comment->setContent($content_comment);

@@ -19,7 +19,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ForgottenResetPasswordController extends AbstractController
 {
     /**
+     * Forgotten reset password (allow to received an email with a token to create a new password)
+     * 
      * @Route("/forgotten/reset/password", name="forgotten_reset_password")
+     *
+     * @param Request $request
+     * @param UserService $userService
+     * @param UserRepository $userRepository
+     * @param MailerSecurity $mailerSecurity
+     * @return Response
      */
     public function forgottenResetPassword(Request $request, UserService $userService, UserRepository $userRepository, MailerSecurity $mailerSecurity): Response
     {
@@ -47,25 +55,29 @@ class ForgottenResetPasswordController extends AbstractController
     }
 
     /**
+     * Reset password
+     * 
      * @Route("/reset/password", name="reset_password")
+     *
+     * @param Request $request
+     * @param UserRepository $userRepository
+     * @param UserService $userService
+     * @return Response
      */
     public function resetPassword(Request $request, UserRepository $userRepository, UserService $userService): Response
     {
         $username = $request->get('username');
         $user = $userRepository->findOneBy(array('username'=> $username));
-
         if (!$user || null === $username)
         {
             $this->addFlash('warning', 'Token Invalid, try again to reset your password account.');
             return $this->redirectToRoute('forgotten_reset_password');
         }
-
         if($userService->checkToken($user, $request->get('token')) === true)
         {
             $form = $this->createForm(ChangePasswordFormType::class);
             $form->handleRequest($request);
             $em = $this->getDoctrine()->getManager();
-
             if ($form->isSubmitted() && $form->isValid())
             {
                 $user->setPassword($userService->createPassword($user, $form->get('plainPassword')->getData()));
@@ -76,10 +88,8 @@ class ForgottenResetPasswordController extends AbstractController
                 $this->addFlash('success', 'Your password has been changed successfully !');
                 return $this->redirectToRoute('app_login');
             }
-
             return $this->render('forgotten_reset_password/reset.html.twig', ['resetForm' => $form->createView()]);
         }
-
         $this->addFlash('warning', 'Token Invalid, try again to reset your password account.');
         return $this->redirectToRoute('forgotten_reset_password');
     }

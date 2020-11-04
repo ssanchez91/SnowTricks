@@ -4,23 +4,20 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Entity\Figure;
-use App\Entity\Picture;
 use App\Form\CommentType;
 use App\Form\FigureType;
-use App\Form\EditFigureType;
 use App\Repository\FigureRepository;
 use App\Service\FigureService;
-use App\Service\FileUploaderService;
 use Doctrine\DBAL\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\DependencyInjection\Loader\Configurator\InstanceofConfigurator;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * FigureController class
+ */
 class FigureController extends AbstractController
 {
     /**
@@ -28,14 +25,24 @@ class FigureController extends AbstractController
      */
     private $figureRepository;
 
-
+    /**
+     * Constructor Figure Controller
+     *
+     * @param FigureRepository $figureRepository
+     */
     public function __construct(FigureRepository $figureRepository)
     {
         $this->figureRepository = $figureRepository;
     }
 
     /**
+     * Show Details Figure
+     *
      * @Route("/show/{slug}", name="showFigure")
+     * 
+     * @param [type] $slug
+     * @param Request $request
+     * @return Response
      */
     public function showFigure($slug, Request $request): Response
     {
@@ -57,9 +64,14 @@ class FigureController extends AbstractController
     }
 
     /**
+     * Delete trick with associates medias
+     * 
      * @Route("/delete/{slug}", name="delete_tricks")
+     *
+     * @param [type] $slug
+     * @return Response
      */
-    public function deleteTricks($slug)
+    public function deleteTricks($slug): Response
     {
         $figure = $this->figureRepository->findOneBy(['slug' => $slug]);
         $em = $this->getDoctrine()->getManager();
@@ -75,7 +87,13 @@ class FigureController extends AbstractController
     }
 
     /**
+     * Add new Trick
+     * 
      * @Route("/addTrick", name="add_trick")
+     *
+     * @param Request $request
+     * @param FigureService $figureService
+     * @return Response
      */
     public function addTrick(Request $request, FigureService $figureService): Response
     {
@@ -96,9 +114,18 @@ class FigureController extends AbstractController
     }
 
     /**
+     * Edit Trick
+     * 
      * @Route("/edit/{slug}", name="edit_trick")
+     *
+     * @param Request $request
+     * @param FigureService $figureService
+     * @param FigureRepository $figureRepository
+     * @param string $slug
+     * @param SluggerInterface $sluggerInterface
+     * @return void
      */
-    public function editTrick(Request $request, FigureService $figureService, FigureRepository $figureRepository, string $slug, SluggerInterface $sluggerInterface)
+    public function editTrick(Request $request, FigureService $figureService, FigureRepository $figureRepository, string $slug, SluggerInterface $sluggerInterface): Response
     {
         $figure = $figureRepository->findOneBy(array('slug'=>$slug));
 
@@ -126,8 +153,11 @@ class FigureController extends AbstractController
     }
 
     /**
-     * @param Figure $figure
-     * @return bool
+     * Allow to verify granted access
+     *
+     * @param [type] $figure
+     * @param string $action
+     * @return boolean
      */
     public function checkAcces($figure, string $action): bool
     {
