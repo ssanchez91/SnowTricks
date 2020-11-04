@@ -8,12 +8,15 @@
 
 namespace App\Service;
 
-
+use phpDocumentor\Reflection\Types\String_;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+/**
+ * FileUploaderService class
+ */
 class FileUploaderService
 {
     private $targetDirectory;
@@ -23,6 +26,13 @@ class FileUploaderService
      */
     private $loggerInterface;
 
+    /**
+     * __construct FileUploadService
+     *
+     * @param [type] $targetDirectory
+     * @param SluggerInterface $slugger
+     * @param LoggerInterface $loggerInterface
+     */
     public function __construct($targetDirectory, SluggerInterface $slugger, LoggerInterface $loggerInterface)
     {
         $this->targetDirectory = $targetDirectory;
@@ -30,7 +40,14 @@ class FileUploaderService
         $this->loggerInterface = $loggerInterface;
     }
 
-    public function upload(UploadedFile $file, string $detailTargetDirectory)
+    /**
+     * upload file
+     *
+     * @param UploadedFile $file
+     * @param string $detailTargetDirectory
+     * @return String
+     */
+    public function upload(UploadedFile $file, string $detailTargetDirectory): String
     {
 
         $this->loggerInterface->debug('le chemin complet est : '.$detailTargetDirectory);
@@ -50,7 +67,12 @@ class FileUploaderService
         return $fileName;
     }
 
-    public function getTargetDirectory()
+    /**
+     * get targetDirectory
+     *
+     * @return String
+     */
+    public function getTargetDirectory():String
     {
         return $this->targetDirectory;
     }

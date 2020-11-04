@@ -75,6 +75,8 @@ class UserService
     }
 
     /**
+     * createUser
+     * 
      * @param User $user
      * @param $password
      * @return User
@@ -88,6 +90,8 @@ class UserService
     }
 
     /**
+     * createToken
+     * 
      * @param User $user
      * @return string
      */
@@ -97,6 +101,8 @@ class UserService
     }
 
     /**
+     * createToken
+     * 
      * @param User $user
      * @param string $password
      * @return string
@@ -107,6 +113,8 @@ class UserService
     }
 
     /**
+     * checkTokenToRegister
+     * 
      * @param User $user
      * @param string $token
      * @return boolean
@@ -129,6 +137,8 @@ class UserService
     }
 
     /**
+     * checkTokenToRegister
+     * 
      * @param User $user
      * @param string $token
      * @return boolean
@@ -145,6 +155,12 @@ class UserService
         return false;
     }
 
+    /**
+     * addToken
+     *
+     * @param User $user
+     * @return User
+     */
     public function addToken(User $user): User
     {
         $user->setToken($this->createToken($user));
@@ -156,6 +172,13 @@ class UserService
         return $user;
     }
 
+    /**
+     * getUrlToEmail
+     *
+     * @param string $route
+     * @param User $user
+     * @return string
+     */
     public function getUrlToEmail(string $route, User $user): string
     {
         // generate a signed url to enable user
@@ -169,7 +192,13 @@ class UserService
         );
     }
 
-    public function uploadLogo(Request $request)
+    /**
+     * uploadLogo
+     *
+     * @param Request $request
+     * @return String
+     */
+    public function uploadLogo(Request $request): String
     {
         /** @var UploadedFile $logo */
         $logo = $request->files->get('registration_form')['pathLogo'];

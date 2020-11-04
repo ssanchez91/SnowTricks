@@ -11,10 +11,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+/**
+ * MovieController class
+ */
 class MovieController extends AbstractController
 {
     /**
+     * Delete movie
+     * 
      * @Route("/movie/delete/{id}", name="movie_delete", methods={"DELETE"})
+     *
+     * @param Request $request
+     * @param Movie $movie
+     * @param MovieService $movieService
+     * @return JsonResponse
      */
     public function movieDelete(Request $request, Movie $movie, MovieService $movieService): JsonResponse
     {
@@ -36,7 +46,15 @@ class MovieController extends AbstractController
     }
 
     /**
+     * Add a new movie
+     * 
      * @Route("/movie/add/{id}", name="movie_add", methods={"POST"})
+     *
+     * @param Request $request
+     * @param Figure $figure
+     * @param MovieService $movieService
+     * @param SerializerInterface $serializerInterface
+     * @return JsonResponse
      */
     public function movieAdd(Request $request, Figure $figure, MovieService $movieService, SerializerInterface $serializerInterface): JsonResponse
     {

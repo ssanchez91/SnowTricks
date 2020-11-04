@@ -84,12 +84,14 @@ class Figure
     private $user;
 
     /**
+     *
      * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="figure", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Assert\Valid()
      */
     private $pictures;
 
     /**
+     * 
      * @ORM\OneToMany(targetEntity=Movie::class, mappedBy="figure", cascade={"persist", "remove"}, orphanRemoval=true)
      * @Groups("tricks:read")
      */
