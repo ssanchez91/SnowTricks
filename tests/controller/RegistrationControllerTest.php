@@ -44,7 +44,7 @@ class RegistrationControllerTest extends WebTestCase
     private function makeForm($buttonCrawlerNode)
     {
         $photo = new UploadedFile(
-            'C:\\wamp64\\www\\SnowTricks\\public\\assets\\img\\logo\\banana-5f90142b2bb86.png',
+            'C:\\wamp64\\www\\SnowTricks\\public\\assets\\img\\logo\\logo-admin.png',
             'banana-5f90142b2bb86.png',
             'image/png',
             null
