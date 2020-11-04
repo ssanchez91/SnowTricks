@@ -5,11 +5,11 @@ Projet 6 - OCR - SSANCHEZ
 
 <h3>Home Page</h3>
 
-![frontend](https://github.com/ssanchez91/SnowTricks/public//Public/img/readme/Home.PNG)
+![frontend](https://github.com/ssanchez91/SnowTricks/blob/main/public/assets/img/Readme/Home.PNG)
 
-<h3>Admin Page</h3>
+<h3>Show Trick</h3>
 
-![backend](https://github.com/ssanchez91/Blog/blob/master/Public/img/readme/Admin.PNG)
+![backend](https://github.com/ssanchez91/SnowTricks/blob/main/public/assets/img/Readme/ShowTrick.PNG)
 
 <h3>Documentation</h3>
 <p>L'ensemble du code source a été commenté. L'utilsation de PhpDocumentor a permis de générer une documentation sous forme de site web.</p>
@@ -21,16 +21,17 @@ Les schémas UML se situent dans le dossier diagrammes à la racine du projet:
   <li>Diagramme de classe</li>
   <li>Diagramme de cas d'utilsation</li>
   <li>Diagramme de séquence</li>
+  <li>MPD</li>
 </ul>  
-Les fonctinnalités décrites dans les diagrammes concernent les articles, les commentaires et les utilisateurs.
+Les fonctinnalités décrites dans les diagrammes concernent les figures, les commentaires et les utilisateurs.
 
-<h3>Langage de programation</h3>
+<h3>Langage de programmation</h3>
 
 <ul>
 </ul>
-<li>Le site a entièrement été développé à l'aide d'un framework codé en PHP et utilisant exclusivement la POO (Programation Orientée Objet).</li>
+<li>Le site a été développé en PHP via le framework Symfony 5.1.</li>
 <li>Le framework Bootstrap a été utilisé pour l'affichage des vues.<a href="https://getbootstrap.com/" target="_blank"> Plus d'informations</a></li>
-<li>La librairie JQuery a été utilisé pour coder la partie en JavaScript.</li>
+<li>La librairie JQuery a été utilisé pour coder les parties nécessitant l'intervention de code JavaScript.</li>
 <hr>
 <h2>Installation</h2><br>
 <ul>
